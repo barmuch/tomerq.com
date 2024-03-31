@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar";
 export default function Home() {
   return (
     <div className="h-screen w-screen bg-primary2">
-      <div className= "h-8 md:h-12"><Navbar/></div>
+      <div className= "h-8 md:h-12 bg-primary1 text-primary2"><Navbar/></div>
       <div className= "h-[calc(100%-2rem)] md:h-[calc(100%-3rem)] lg:h-[calc(100%-4rem)]">  
           <div className= "h-full flex flex-col lg:flex-row justify-start">
             {/* Image Container */}
