@@ -13,7 +13,7 @@ const About = () => {
       </div>
       
       <div>
-        <div className="flex gap-4 flex-row my">
+        <div className="flex gap-4 flex-row ">
         <Link href="/">
           <Image src="/github.png" alt="" width={24} height={24} />
         </Link>
