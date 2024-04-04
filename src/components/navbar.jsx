@@ -1,15 +1,15 @@
 import Link from "next/link"
+import Image from "next/image"
 const navbar = () => {
   return (
-    <div className="h-fit flex items-center justify-between p-1 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-32">
+    <div className="flex justify-between px-6 sm:px-8 p-1 md:px-12 lg:px-16 xl:px-32 h-full justify-center items-center ">
       <div className="text-2xl md:text-3xl lg:text-4xl font-semibold italic">
             <Link href="/">tomerQ.com</Link>        
       </div>
-      <div>
-        <ul className="flex gap-4 lg:gap-6 text-md  ">
-            <li><Link href="/register">daftar</Link></li>
-            <li><Link href="/login">masuk</Link></li>
-        </ul>
+      <div className="flex flex-row items-center gap-3">
+        <div className="text-xl md:text-2xl lg:text-3xl hidden lg:block">Menu</div>
+        <div className="relative object-contain ,m-2"><Image src="/burger-menu.png" width={28} height={28} alt="" className="lg:hidden"/></div>
+        <div className="relative object-contain ,m-2"><Image src="/user-icon.png" width={30} height={30} alt=""/></div>
       </div>        
     </div>
   )
