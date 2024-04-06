@@ -5,16 +5,16 @@ export default function Home() {
   return (
     <div className="h-max-full h-full min-h-screen w-full bg-primary2 flex flex-col content-between gap-6 lg:gap-0">
       {/* navbar */}
-      <div className= " md:h-12 bg-primary1 text-primary2"><Navbar/></div>
+      <div className= "h-1/12 md:h-12 bg-primary1 text-primary2"><Navbar/></div>
       {/* content */}  
-      <div className= "flex flex-col lg:flex-row mx-auto content-between">
+      <div className= "h-10/12 flex flex-col lg:flex-row items-center lg:mx-auto">
         {/* Image Container */}
         <div className= "h-1/2 lg:h-full lg:w-1/2 ">
-          <Image src="/hero.png" alt="" width={400}height={400} className="object-contain lg:py-20 lg:mx-auto"/>
+          <Image src="/hero.png" alt="" width={400}height={400} className="object-contain lg:py-20 lg:ml-auto"/>
         </div>
         {/* Text Container */}
         <div className="h-1/2 lg:h-full lg:w-1/2 flex  ">
-          <div className="lg:w-4/5 flex flex-col  mx-auto justify-center mx-auto md:mx-auto">
+          <div className="lg:w-4/5 flex flex-col  pl-2 mx-auto items-center">
                 <div className="lg:pr-20">
                   <h1 className="text-5xl text-primary1 md:text-6xl border-l-8 border-primary1 pl-3 rounded-l-lg font-bold">Tempat Belajar Bahasa turki
                     <span className="content__container block font-light text-3xl md:text-4xl justify-center md:h-13">
@@ -34,7 +34,7 @@ export default function Home() {
         </div>           
       </div>      
       {/* footer */}
-      <div className="text-primary1 text-xl mx-auto" >
+      <div className="h-1/12 text-primary1 text-xl mx-auto" >
         powered by ummati.com
       </div>                       
     </div>      
