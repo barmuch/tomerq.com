@@ -21,15 +21,15 @@ const Navbar = () => {
             <Link href="/">tomerQ.com</Link>        
       </div>
       <div className="flex flex-row items-center gap-3">
-        <div className="text-xl md:text-2xl lg:text-3xl hidden lg:block">menu</div>
-        <button className="relative w-8 h-6 flex flex-col justify-between z-50" onClick={() => setOpen((prev) => !prev)}>
+        <div className="text-xl md:text-2xl lg:text-3xl hidden lg:block cursor-pointer" onClick={() => setOpen((prev) => !prev)}>menu</div>
+        <button className="lg:hidden relative w-8 h-6 flex flex-col justify-between z-50 cursor-pointer" onClick={() => setOpen((prev) => !prev)}>
           <div className="w-8 h-1 bg-primary2 rounded"></div>          
           <div className="w-8 h-1 bg-primary2 rounded"></div>
           <div className="w-8 h-1 bg-primary2 rounded"></div>
         </button>
         {/* menu list */}
         {open &&(
-        <div className="absolute top-14 lg:top-12 lg:w-1/4 right-0 w-screen max-h-full h-full
+        <div className=" absolute top-14 lg:top-12 lg:w-1/4 right-0 w-screen max-h-full h-full
        bg-primary1 text-primary2 text-2xl z-50 flex flex-col gap-0 pl-3">
           {links.map((link)=>(
             <Link href={link.url} key={link.title} className="border-b-2 border-white py-2">{link.title}</Link>
