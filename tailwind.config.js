@@ -16,7 +16,8 @@ module.exports = {
     colors: {
       'primary1' : '#731919',
       'primary2' : '#F5F5F5',
-      'hover1' : '#B6ADAD'
+      'hover1' : '#B6ADAD',
+      'hover2' : '#BD3D3D',
     }
   },
   plugins: [],
