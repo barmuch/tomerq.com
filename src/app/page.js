@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Navbar from "@/components/navbar";
-
+import Link from "next/link";
 export default function Home() {
   return (
     <div className="h-max-full h-full min-h-screen w-full bg-primary2 flex flex-col content-between gap-6 lg:gap-0">
@@ -28,7 +28,7 @@ export default function Home() {
                   </h1>
                 </div>
                 <div className="text-2xl mt-8 flex animate-bounce justify-center">
-                  <button className="bg-primary1 p-2 rounded-lg text-primary2  hover:bg-primary2 hover:text-primary1 ">mulai</button>
+                  <Link href="/kurikulum"><button className="bg-primary1 p-2 rounded-lg text-primary2  hover:bg-primary2 hover:text-primary1 ">mulai</button></Link>
                 </div>
           </div>              
         </div>           
