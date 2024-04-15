@@ -9,7 +9,7 @@ const myFont = localFont({
 
 const kalam = Kalam({ 
   subsets: ["latin"],
-  weight: "400", 
+  weight: "400",  
 });
 
 export const metadata = {

@@ -19,9 +19,7 @@ const Navbar = () => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    // Mendaftarkan event listener ketika komponen dimount
     document.addEventListener('click', handleClickOutside);
-    // Membersihkan event listener ketika komponen di-unmount
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };

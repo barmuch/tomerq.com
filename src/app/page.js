@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar";
 import Link from "next/link";
 export default function Home() {
   return (
-    <div className="h-max-full h-full min-h-screen w-full bg-primary2 flex flex-col content-between gap-6 lg:gap-0">
+    <div className="flex-1 h-max-full h-full min-h-screen w-full bg-primary2 flex flex-col content-between gap-6 lg:gap-0">
       {/* navbar */}
       <div className= "h-1/12 md:h-12 bg-primary1 text-primary2"><Navbar/></div>
       {/* content */}  
