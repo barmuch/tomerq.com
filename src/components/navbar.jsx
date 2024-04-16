@@ -92,7 +92,6 @@ const Navbar = () => {
           { status === "authenticated" ? (
             <div className="flex flex-col gap-4">
               <div className="">Nama      :</div>
-              <div className="">Domisili  :</div>
               <div className="">Institusi :</div>
               <div className="text-center">Premium</div>
               <div className="text-center cursor-pointer hover:bg-primary2 hover:text-primary1" onClick={signOut}>logout</div>
