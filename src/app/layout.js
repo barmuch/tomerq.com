@@ -1,6 +1,7 @@
 import { Kalam } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local"
+import AuthProvider from "@/providers/AuthProvider";
 
 const myFont = localFont({
   src: './Kalam-Regular.ttf',
@@ -19,9 +20,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${myFont.className} `}>        
-          {children}   
+    <html lang="en">      
+      <body className={`${myFont.className} `}>
+        <AuthProvider>        
+          {children}
+        </AuthProvider>   
       </body>
     </html>
   );

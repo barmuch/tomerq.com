@@ -3,6 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import React, { useState, useRef, useEffect } from 'react';
+import { signOut, useSession } from "next-auth/react";
 
 const links = [
   { url: "/", title: "Home" },
@@ -18,6 +19,8 @@ const Navbar = () => {
 
   const containerRef = useRef(null);
 
+  const { status } = useSession()
+  console.log(status)
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
@@ -86,12 +89,19 @@ const Navbar = () => {
         {openUser &&(
         <div className=" absolute top-14 lg:top-12 lg:w-1/4 right-0 w-screen max-h-full h-fit bg-primary1 text-primary2 text-2xl z-50 flex flex-col gap-0 pl-3 py-3 border-t-1">
           {/* dashboard items */}
-          <div className="flex flex-col gap-4">
-            <div className="">Nama      :</div>
-            <div className="">Domisili  :</div>
-            <div className="">Institusi :</div>
-            <div className="text-center">Premium</div>
-          </div>
+          { status === "authenticated" ? (
+            <div className="flex flex-col gap-4">
+              <div className="">Nama      :</div>
+              <div className="">Domisili  :</div>
+              <div className="">Institusi :</div>
+              <div className="text-center">Premium</div>
+              <div className="text-center cursor-pointer hover:bg-primary2 hover:text-primary1" onClick={signOut}>logout</div>
+            </div>  
+            ): (
+            <div className="flex flex-col justify-center">
+              <Link href="/login" className=" py-2 hover:bg-primary2 hover:text-primary1 text-center ">Login</Link>
+            </div>
+            )}
         </div>
         )}
       </div> 
