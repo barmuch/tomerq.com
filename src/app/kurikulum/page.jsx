@@ -1,30 +1,19 @@
 import Navbar from "@/components/navbar";
 import Link from "next/link";
-const Kurikulum = () => {
 
-  const kurikulums = [
-    {
-      title : "Pengenalan Bahasa Turki"
-    },
-    {
-      title : "A1 Grammar : Beginner"
-    },
-    {
-      title : "A2 Grammar : Beginner"
-    },
-    {
-      title : "B1 Grammar : Intermediate"
-    },
-    {
-      title : "B2 Grammar : Intermediate"
-    },
-    {
-      title : "C1 Grammar : Advanced"
-    },
-    {
-      title : "C2 Grammar : Advanced"
-    }
-  ]
+const getData = async () => {
+  const res = await fetch("http://localhost:3000/api/kurikulums", {
+    cache: "no-store"
+  })
+
+  if(!res.ok){
+    throw new Error("Failed")
+  }
+
+  return res.json()
+}
+const Kurikulum = async() => {
+  const data = await getData()
   return (
 <div>
   {/* Navbar */}
@@ -44,9 +33,9 @@ const Kurikulum = () => {
           </div>
           {/* title  */}
           <div className=" text-xl lg:text-3xl text-black justify-start font-bold w-11/12 lg:w-3/5  mx-auto">Kurikulum</div>
-          {kurikulums.map((kurikulum) => (
-            <Link href="/pembahasan" key={kurikulum.title} className="flex flex-row bg-primary2 text-black w-max-full p-2 rounded-lg mx-auto w-11/12 lg:w-3/5 hover:bg-hover1 cursor-pointer border-2 border-black">
-            {kurikulum.title}
+          {data?.map((kurikulum) => (
+            <Link href="/pembahasan" key={kurikulum.slug} className="flex flex-row bg-primary2 text-black w-max-full p-2 rounded-lg mx-auto w-11/12 lg:w-3/5 hover:bg-hover1 cursor-pointer border-2 border-black">
+            {kurikulum._id}
           </Link>   
           ))}
                

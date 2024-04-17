@@ -78,3 +78,9 @@ model Authenticator {
  
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Kurikulum {
+    id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+    slug               String   @unique
+    title              String 
+}
