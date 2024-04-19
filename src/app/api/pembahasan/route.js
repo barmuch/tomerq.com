@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server"
-import prisma from "@/utils/connect"
+
 export const GET = async () => {
     try {
-        const kurikulums = await prisma.kurikulum.findMany()
+        const kurikulums = await prisma.pembahasan.findMany()
 
         return new NextResponse(JSON.stringify(kurikulums, { status : 500}))
     } catch (err){
