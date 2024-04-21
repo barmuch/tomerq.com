@@ -84,27 +84,27 @@ model Kurikulum {
     slug               String   @unique
     title              String   @unique
     materi             Materi[]
-    pembahasan         Pembahasan[]
-    
 }
 
 model Materi {
-    id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+    id                 String @id @default(auto()) @map("_id") @db.ObjectId
     slug               String @unique
     title              String @unique
     bab                String
-    kurikulum          Kurikulum @relation(fields: [kurikulumTitle], references: [title])
-    kurikulumTitle     String
-    pembahasan         Pembahasan?     
+    kurikulum          Kurikulum? @relation(fields: [kurikulumTitle], references: [title])
+    kurikulumTitle     String?
+    pembahasan         Pembahasan? 
+    @@unique([title, id, kurikulumTitle])
 }
 
 model Pembahasan {
     id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-    materi             Materi? @relation(fields: [titleMateri], references: [title]) 
-    titleMateri        String? @unique
-    kurikulum          Kurikulum? @relation(fields: [kurikulumTitle], references: [title])
+    materi             Materi?  @relation( fields: [materiTitle, materiId, kurikulumTitle], references:[title, id, kurikulumTitle]) 
+    materiTitle        String?  @unique
+    materiId           String?  @unique
     kurikulumTitle     String? 
     teori              String
     contoh             String
     latihan            String
+    @@unique([materiTitle, materiId, kurikulumTitle])
 }

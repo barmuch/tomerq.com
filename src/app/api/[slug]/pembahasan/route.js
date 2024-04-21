@@ -6,10 +6,9 @@ export const GET = async (req, { params }) => {
   const { slug } = params;
 
   try {
-    const kurikulum = await prisma.kurikulum.findUnique({
-      where: { slug },
-      include: { 
-        materi: true
+    const kurikulum = await prisma.pembahasan.findUnique({
+      where: {
+        materiId : slug
       }
     });
 

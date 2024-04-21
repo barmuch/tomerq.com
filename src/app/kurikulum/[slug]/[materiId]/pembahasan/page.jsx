@@ -1,6 +1,13 @@
+"use client"
 import Navbar from "@/components/navbar"
+import {useState, useEffect} from "react"
+
 const Pembahasan = () => {
-  return (
+    const [data, setData] = useState()
+    const [loading, setLoading] = useState(true)
+
+
+return (
     <div className=" flex flex-col max-h-screen">
         {/* navbar */}
         <div className="h-1/12 bg-primary1 text-primary2"><Navbar/></div>

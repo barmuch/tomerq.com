@@ -2,6 +2,7 @@
 import Navbar from "@/components/navbar";
 import { useEffect, useState } from "react";
 import Loading from "@/components/loading/page"
+import Link from "next/link"
 const Materi = ({ params }) => {
     const [data, setData] = useState(undefined);
     const [loading, setLoading] = useState(true);
@@ -38,7 +39,7 @@ const Materi = ({ params }) => {
     if (loading) {
         return <Loading/>
     }
-
+  console.log(params)
     return (
         <div className="">
             <div className="bg-primary1 text-primary2">
@@ -65,9 +66,9 @@ const Materi = ({ params }) => {
                                     {isBabOpen && (
                                         <div className='item flex flex-col text-black'>
                                             {data?.materi?.filter(item => item.bab === materi.bab).map((materiFiltered) => (
-                                                <div className='bg-black justify-items-start text-xl pl-3' key={materiFiltered.title}>
+                                                <Link href= {`/kurikulum/${data?.slug}/${materiFiltered.id}/pembahasan`} className='bg-black justify-items-start text-xl pl-3' key={materiFiltered.title}>
                                                     - {materiFiltered.title}
-                                                </div>
+                                                </Link>
                                             ))}
                                         </div>
                                     )}
