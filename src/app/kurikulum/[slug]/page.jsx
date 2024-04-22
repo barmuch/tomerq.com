@@ -13,7 +13,7 @@ const Materi = ({ params }) => {
     useEffect(() => {
         const getData = async (slug) => {
             try {
-                const res = await fetch(`http://localhost:3000/api/kurikulums/${slug}`);
+                const res = await fetch(`https://tomerq-com.vercel.app/kurikulums/${slug}`);
                 if (!res.ok) {
                     throw new Error("Failed");
                 } else {

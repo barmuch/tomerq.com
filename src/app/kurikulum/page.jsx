@@ -10,7 +10,7 @@ const Kurikulum = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/api/kurikulums`);
+                const res = await fetch(`https://tomerq-com.vercel.app/api/kurikulums`);
                 if (!res.ok) {
                     throw new Error("Failed to fetch data");
                 }
