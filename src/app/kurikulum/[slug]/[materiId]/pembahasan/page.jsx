@@ -11,7 +11,7 @@ const Pembahasan = ({params}) => {
     useEffect(() => {
         const getData = async(materiId) => {
             try {
-                const res = await fetch(`https://tomerq-com.vercel.app/api/${materiId}/pembahasan`)
+                const res = await fetch(`https://tomerq-com-git-main-barmuchs-projects.vercel.app/api/${materiId}/pembahasan`)
                 if (!res.ok) {
                     throw new Error("Failed")
                 } else {
