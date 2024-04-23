@@ -11,7 +11,7 @@ const Pembahasan = ({params}) => {
     useEffect(() => {
         const getData = async(materiId) => {
             try {
-                const res = await fetch(`https://tomerq-com-git-main-barmuchs-projects.vercel.app/api/${materiId}/pembahasan`)
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${materiId}/pembahasan`)
                 if (!res.ok) {
                     throw new Error("Failed")
                 } else {
@@ -32,11 +32,11 @@ const Pembahasan = ({params}) => {
     }
     
 return (
-    <div className=" flex flex-col max-h-screen">
+    <div className=" flex flex-col h-screen">
         {/* navbar */}
-        <div className="bg-primary1 text-primary2"><Navbar/></div>
+        <div className="md:h-12 bg-primary1 text-primary2"><Navbar/></div>
         {/* content */}
-        <div className="max-w-full bg-primary1 py-5 border-t-2 border-primary2 flex flex-col gap-4 lg:flex-row lg:px-4 lg:max-h-screen">
+        <div className="max-w-full bg-primary1 py-5 border-t-2 border-primary2 flex lg:flex-1 lg:overflow-hidden flex-col gap-4 lg:flex-row lg:px-4 ">
             {/* teori dan contoh */}
             <div className="flex flex-col gap-4 w-11/12 bg-primary2 mx-auto rounded-lg lg:px-4 lg:w-3/5 flex-1 overflow-y-auto">
                 {/* Teori */}
@@ -62,7 +62,7 @@ return (
                 </div>
                 {/* soal Latihan */}
                 <div className="flex flex-row justify-between">
-                    <div className="items-center p-2">Lorem, ipsum.    <input className="border border-black rounded-md focus:outline-none focus:border-blue-500" type="text"/>
+                    <div className="items-center p-2">Lorem, ipsum.    <input className="border border-black rounded-md focus:outline-none focus:border-blue-500" type="text" style={{ width: "75px" }}/>
                     </div>
 
                     <div className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-hover2  cursor-pointer">cek</div>

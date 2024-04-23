@@ -76,7 +76,7 @@ const Navbar = () => {
         </div>
         )}
         {/* User Button */}
-        <div className="relative object-contain m-2 cursor-pointer" onClick={() => setOpenuser(() => {
+        <div className="relative object-contain cursor-pointer" onClick={() => setOpenuser(() => {
           if (openUser === false){
             setOpenuser(true)
             setOpenmenu(false)
@@ -98,7 +98,7 @@ const Navbar = () => {
             </div>  
             ): (
             <div className="flex flex-col justify-center">
-              <Link href="/login" className=" py-2 hover:bg-primary2 hover:text-primary1 text-center ">Login</Link>
+              <Link href="/login" className="hover:bg-primary2 hover:text-primary1 text-center ">Login</Link>
             </div>
             )}
         </div>

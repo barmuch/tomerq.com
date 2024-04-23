@@ -10,7 +10,7 @@ const Kurikulum = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(`https://tomerq-com-git-main-barmuchs-projects.vercel.app/api/kurikulums`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/kurikulums`);
                 if (!res.ok) {
                     throw new Error("Failed to fetch data");
                 }
@@ -29,13 +29,14 @@ const Kurikulum = () => {
         return <Loading/>
     }
     return (
-        <div>
+        // container
+        <div className=" h-screen flex flex-col">
             {/* Navbar */}
-            <div className="w-full bg-primary1 text-primary2"><Navbar/></div>
+            <div className="md:h-12 bg-primary1 text-primary2"><Navbar/></div>
             {/* content */}
-            <div className="max-w-full bg-primary1 py-5 border-t-2 border-primary2">
+            <div className=" flex-1 flex max-w-full bg-primary1 py-5 border-t-2 border-primary2 overflow-hidden ">
                 {/* container putih*/}
-                <div className="flex flex-col gap-4 py-5  w-11/12 bg-primary2 h-11/12 mx-auto rounded-lg px-4">
+                <div className="flex flex-col gap-4 py-5  w-11/12 bg-primary2  mx-auto rounded-lg px-4 overflow-y-auto">
                     {/* Title */}
                     <div className="text-2xl text-black font-bold lg:text-4xl justify-center flex text-center">
                         Welcome to tomerQ.com
