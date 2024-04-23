@@ -42,7 +42,7 @@ return (
                 {/* Teori */}
                 <div className=" flex flex-col border-b-2 border-black p-4">
                     <div className="items-start font-bold "> {data?.materiTitle}</div>
-                    <div className=" text-justify indent-6" >{data?.teori}</div>
+                    <div className=" text-justify indent-6" ><div dangerouslySetInnerHTML={{ __html: data?.teori }} /></div>
                 </div>
                 {/* contoh */}
                 <div className="h-1/3">
