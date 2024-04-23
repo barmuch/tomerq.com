@@ -2,7 +2,7 @@
 import Navbar from "@/components/navbar"
 import {useState, useEffect} from "react"
 import Loading from "@/components/loading/page"
-import Image from "next/image"
+
 const Pembahasan = ({params}) => {
     const [data, setData] = useState()
     const [loading, setLoading] = useState(true)    
@@ -45,11 +45,17 @@ return (
                     <div className=" text-justify indent-6" ><div dangerouslySetInnerHTML={{ __html: data?.teori }} /></div>
                 </div>
                 {/* contoh */}
-                <div className="h-1/3">
+                <div className="p-4 flex flex-col">
                     <div className="items-start font-bold border-black">contoh</div>
-                    <Image src="/kata-jamak.png" alt="" 
-                    width={400} height={500} className="lg:px-20" quality={100}
-                    />
+                    {/* list contoh item */}
+                    <div>
+                    Kitap kitaplr, buku = buku buku  
+                    </div>
+                </div>
+                {/* catatan */}
+                <div className="border-2 border-primary1 m-2 rounded-lg">
+                    <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg">Catatan</div>
+                    <div className="text-justify p-2">Huruf yang berwarna merah adalah huruf vokal terakhir kata tersebut. Jika termasuk kedalam salah satu huruf Kalın [ a, ı, o, u ], maka akan berimbuhan -lar. Jika termasuk kedalam salah satu huruf İnce [ e, i, ö, ü ], maka akan berimbuhan   -ler</div>
                 </div>
             </div>
             {/* latihan */}
@@ -61,11 +67,13 @@ return (
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, officia repellendus possimus numquam impedit labore culpa, cupiditate facilis ut error delectus, sed aliquid dignissimos! Omnis.
                 </div>
                 {/* soal Latihan */}
-                <div className="flex flex-row justify-between">
-                    <div className="items-center p-2">Lorem, ipsum.    <input className="border border-black rounded-md focus:outline-none focus:border-blue-500" type="text" style={{ width: "75px" }}/>
-                    </div>
-
-                    <div className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-hover2  cursor-pointer">cek</div>
+                <div className="flex flex-col gap-2">
+                    {data?.latihan?.map((item,index) => (<div className="flex flex-row justify-between" key={item.id}>
+                        <div className="items-center ">{item.item}    <input className="border border-black rounded-md focus:outline-none focus:border-blue-500" type="text" style={{ width: "75px" }}/>
+                        </div>
+                        <div className="bg-primary1 px-2 rounded-lg text-primary2 hover:bg-hover2  cursor-pointer">cek</div>
+                    </div>))}
+                    
                 </div>
                 {/* button latihan */}
                 <div className="justify-self-end flex flex-row gap-2">

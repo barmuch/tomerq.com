@@ -70,7 +70,7 @@ const Materi = ({ params }) => {
                                             <div className='item flex flex-col text-black'>
                                                 {data?.materi?.filter(item => item.bab === materi.bab).map((materiFiltered) => (
                                                     <Link href= {`/kurikulum/${data?.slug}/${materiFiltered.id}/pembahasan`} className='bg-black justify-items-start text-xl pl-3' key={materiFiltered.title}>
-                                                        - {materiFiltered.title}
+                                                        <span>&#9745;</span> {materiFiltered.title}
                                                     </Link>
                                                 ))}
                                             </div>

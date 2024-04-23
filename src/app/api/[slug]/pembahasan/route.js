@@ -9,6 +9,8 @@ export const GET = async (req, { params }) => {
     const kurikulum = await prisma.pembahasan.findUnique({
       where: {
         materiId : slug
+      }, include : {
+        latihan : true
       }
     });
 

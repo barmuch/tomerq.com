@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex-1 h-max-full h-full min-h-screen w-full bg-primary2 flex flex-col content-between gap-6 lg:gap-0">
       {/* navbar */}
-      <div className="py-1 md:h-12 bg-primary1 text-primary2">
+      <div className="py-1 h-1/12 md:h-12 bg-primary1 text-primary2">
         <Navbar />
       </div>
       {/* content */}

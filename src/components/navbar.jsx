@@ -69,7 +69,7 @@ const Navbar = () => {
         </button>
         {/* Menu List */}
         {openMenu &&(
-        <div className=" absolute top-14 md:top-12 md:w-1/5 right-0 bottom-0 w-screen max-h-full lg:h-fit bg-primary1 text-primary2 text-2xl z-50 flex flex-col gap-0">
+        <div className=" absolute top-12 md:top-12 md:w-1/5 right-0 bottom-0 w-screen max-h-full lg:h-fit bg-primary1 text-primary2 text-2xl z-50 flex flex-col gap-0">
           {links.map((link)=>(
             <Link href={link.url} key={link.title} className="border-white py-2 hover:bg-primary2 hover:text-primary1 text-center">{link.title}</Link>
           ))}
