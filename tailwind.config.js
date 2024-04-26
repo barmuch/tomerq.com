@@ -18,6 +18,7 @@ module.exports = {
       'primary2' : '#F5F5F5',
       'hover1' : '#B6ADAD',
       'hover2' : '#BD3D3D',
+      'white' : '#ffffff'
     }
   },
   plugins: [],

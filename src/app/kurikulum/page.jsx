@@ -1,5 +1,5 @@
 "use client"
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar"
 import Link from "next/link";
 import { useState, useEffect } from 'react';
 import Loading from "@/components/loading/page";

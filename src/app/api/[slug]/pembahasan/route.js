@@ -10,7 +10,11 @@ export const GET = async (req, { params }) => {
       where: {
         materiId : slug
       }, include : {
-        latihan : true
+        latihan : {
+          include : {
+            item : true
+          }
+        }
       }
     });
 

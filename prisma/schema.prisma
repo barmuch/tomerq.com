@@ -107,7 +107,7 @@ model Pembahasan {
   teori          String
   contoh         Contoh[]
   catatan        Catatan[]
-  latihan        Latihan[]
+  latihan        Latihan?  
 
   @@unique([materiTitle, materiId, kurikulumTitle])
 }
@@ -117,6 +117,7 @@ model Contoh {
   item         String
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
   pembahasanId String?     @db.ObjectId
+  image        String?
 }
 
 model Catatan {
@@ -128,8 +129,16 @@ model Catatan {
 
 model Latihan {
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  item         String
+  item         Item[]
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
-  pembahasanId String?     @db.ObjectId
+  pembahasanId String?     @db.ObjectId @unique
   petunjuk     String
+}
+
+model Item{
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  latihan      Latihan?    @relation(fields: [latihanId], references: [id])
+  latihanId    String?     @db.ObjectId
+  question     String
+  answer       String
 }

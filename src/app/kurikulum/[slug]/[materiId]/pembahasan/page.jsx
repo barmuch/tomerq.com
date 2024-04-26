@@ -7,6 +7,8 @@ const Pembahasan = ({params}) => {
     const [data, setData] = useState()
     const [loading, setLoading] = useState(true)    
     const { materiId } = {...params}
+    const [inputAnswer, setInputAnswer] = useState('')
+    const [result, setResult] = useState({})
 
     useEffect(() => {
         const getData = async(materiId) => {
@@ -59,26 +61,76 @@ return (
                 </div>
             </div>
             {/* latihan */}
-            <div className="flex flex-col gap-4 py-5 w-11/12 bg-primary2 h-11/12 mx-auto rounded-lg px-4 items-start grid lg:w-2/5">
+            <div className="flex flex-col gap-4 py-5 w-11/12 bg-primary2 h-11/12 mx-auto rounded-lg px-4 lg:w-2/5">
                 {/* title */}
                 <div className="font-bold justify">Latihan</div>
                 {/* perintah latihan */}
                 <div className="text-justify indent-6">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, officia repellendus possimus numquam impedit labore culpa, cupiditate facilis ut error delectus, sed aliquid dignissimos! Omnis.
+                    {data?.latihan?.petunjuk}                   
                 </div>
                 {/* soal Latihan */}
                 <div className="flex flex-col gap-2">
-                    {data?.latihan?.map((item,index) => (<div className="flex flex-row justify-between" key={item.id}>
-                        <div className="items-center ">{item.item}    <input className="border border-black rounded-md focus:outline-none focus:border-blue-500" type="text" style={{ width: "75px" }}/>
-                        </div>
-                        <div className="bg-primary1 px-2 rounded-lg text-primary2 hover:bg-hover2  cursor-pointer">cek</div>
-                    </div>))}
+                   {data?.latihan?.item?.map((question)=>{
+                    const handleChange = (questionId, event) => {
+                        const cleanedValue = event.target.value.replace(/[^a-zA-Z]/g, '')
+                        setInputAnswer(prevState => ({
+                          ...prevState,
+                          [questionId]: cleanedValue
+                        }))
+                    }
                     
+                    const checkAnswer = (questionId) => {                     
+
+                        const userAnswer = inputAnswer[questionId];
+                        const correctAnswer = data.latihan.item.find(question => question.id === questionId).answer;
+                        const isCorrect = userAnswer && userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+                        setResult(prevState => ({
+                        ...prevState,
+                        [questionId]: isCorrect
+                    }))
+                    }
+                    console.log(result)
+                                        
+                    return (
+                        <div className="flex flex-row justify-between" key={question.id}>
+                                <div className="items-center">
+                                  {question.question}
+                                  <input
+                                    className="border-b border-black  focus:outline-none focus:border-blue-500"
+                                    type="text"
+                                    style={{ width: "75px" }}
+                                    onChange={(event) => handleChange(question.id, event)}
+                                  />
+                                  {
+                                        Object.keys(result).length !== 0 ? (
+                                            result[question.id] !== undefined ? (
+                                                result[question.id] === null ? (
+                                                    <span style={{ marginLeft: "10px", color: "black" }}>Masukkan jawaban Anda</span>
+                                                ) : (
+                                                    <span style={{ marginLeft: "10px", color: result[question.id] ? "green" : "red" }}>
+                                                        {result[question.id] ? "Benar" : "Salah"}
+                                                    </span>
+                                                )
+                                            ) : null
+                                        ) : null 
+                                    }
+                                        
+                                      
+                                </div>
+                                <div
+                                  className="bg-primary1 px-2 rounded-lg text-primary2 hover:bg-hover2 cursor-pointer"
+                                  onClick={() => checkAnswer(question.id)}
+                                >
+                                  cek
+                                </div>
+                              </div>
+                            );
+                    })}              
                 </div>
                 {/* button latihan */}
                 <div className="justify-self-end flex flex-row gap-2">
-                    <button className="border-2 rounded-lg w-2/3 border-primary1 text-primary1 font-bold">Tanya Forum</button>
-                    <button className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-primary2 hover:text-primary1 w-1/2  ">lanjut</button>
+                    <button className="border-2 rounded-lg w-2/3 border-primary1 text-primary1 font-bold cursor-pointer hover:bg-hover1">Tanya Forum</button>
+                    <button className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-hover2 cursor-pointer w-1/2  ">lanjut</button>
                 </div>
             </div>
         </div>
