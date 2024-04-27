@@ -48,11 +48,10 @@ const Materi = ({ params }) => {
             </div>
             {/* Content */}
             <div className='flex-1 flex overflow-hidden bg-primary2 w-full flex flex-col items-center '>
-                <div className="flex flex-col lg:w-4/5 items-center overflow-y-auto py-6 gap-4">    
+                <div className="flex flex-col w-11/12 md:w-4/5 items-center overflow-y-auto py-6 gap-4">    
                     <div className='text-4xl font-semibold text-black'>{data?.title}</div>
-                    <div className='text-2xl px-3 text-black text-justify leading-tight indent-8 w-4/5'>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    </div>
+                    <div className='text-2xl px-3 text-black text-justify leading-tight indent-8 w-4/5'>{data?.quote}</div>
+                    <div className='text-center text-2xl'>{data?.quoteFrom}</div>
                     {/* Materi */}
                     <div className='flex flex-col w-4/5 items-start gap-2 my-6'>
                         {data?.materi?.map((materi, index) => {
@@ -69,7 +68,7 @@ const Materi = ({ params }) => {
                                         {isBabOpen && (
                                             <div className='item flex flex-col text-black'>
                                                 {data?.materi?.filter(item => item.bab === materi.bab).map((materiFiltered) => (
-                                                    <Link href= {`/kurikulum/${data?.slug}/${materiFiltered.id}/pembahasan`} className='bg-black justify-items-start text-xl pl-3' key={materiFiltered.title}>
+                                                    <Link href= {`/kurikulum/${data?.slug}/${materiFiltered.id}/pembahasan`} className='font-sans bg-black justify-items-start text-xl pl-3 fo' key={materiFiltered.title}>
                                                         <span>&#9745;</span> {materiFiltered.title}
                                                     </Link>
                                                 ))}

@@ -1,7 +1,26 @@
+"use client"
 import Link from "next/link"
 import Image from "next/image"
+import { getStorage, ref, getDownloadURL } from "firebase/storage"
+import { useEffect, useState } from "react"
+import { app } from "@/utils/firebase"
 
 const About = () => {
+const [imageUrl, setImageUrl] = useState('')
+
+  
+  const storage = getStorage(app);
+  const forestRef = ref(storage, 'images/github.png');
+
+  getDownloadURL(forestRef)
+    .then((url) => {
+      setImageUrl(url);
+    })
+    .catch((error) => {
+      console.error("Error getting download URL:", error);
+    });
+
+
   return (
     <div className="h-screen w-screen bg-primary1 flex flex-col items-center p-3 gap-4 lg:gap-8 justify-center my-auto">
       
@@ -16,7 +35,7 @@ const About = () => {
       <div>
         <div className="flex gap-4 flex-row ">
         <Link href="/">
-          <Image src="/github.png" alt="" width={24} height={24} />
+          <Image src={imageUrl} alt="" width={24} height={24} />
         </Link>
         <Link href="/">
           <Image src="/instagram.png" alt="" width={24} height={24} />

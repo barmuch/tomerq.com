@@ -80,17 +80,19 @@ model Authenticator {
 }
 
 model Kurikulum {
-  id     String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug   String   @unique
-  title  String   @unique
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  slug           String?   @unique
+  title          String?   @unique
+  quote          String?
+  quoteFrom      String?
   materi Materi[]
 }
 
 model Materi {
   id             String      @id @default(auto()) @map("_id") @db.ObjectId
-  slug           String      @unique
-  title          String      @unique
-  bab            String
+  slug           String?      @unique
+  title          String?      @unique
+  bab            String?
   kurikulum      Kurikulum?  @relation(fields: [kurikulumTitle], references: [title])
   kurikulumTitle String?
   pembahasan     Pembahasan?
@@ -104,7 +106,7 @@ model Pembahasan {
   materiTitle    String?   @unique
   materiId       String?   @unique @db.ObjectId
   kurikulumTitle String?
-  teori          String
+  teori          String?
   contoh         Contoh[]
   catatan        Catatan[]
   latihan        Latihan?  
@@ -122,7 +124,7 @@ model Contoh {
 
 model Catatan {
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  item         String
+  item         String?
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
   pembahasanId String?     @db.ObjectId
 }
@@ -132,13 +134,13 @@ model Latihan {
   item         Item[]
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
   pembahasanId String?     @db.ObjectId @unique
-  petunjuk     String
+  petunjuk     String?
 }
 
 model Item{
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
   latihan      Latihan?    @relation(fields: [latihanId], references: [id])
   latihanId    String?     @db.ObjectId
-  question     String
-  answer       String
+  question     String?
+  answer       String?
 }

@@ -20,7 +20,7 @@ const Navbar = () => {
   const containerRef = useRef(null);
 
   const { status } = useSession()
-  console.log(status)
+  
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {

@@ -38,7 +38,7 @@ return (
         {/* navbar */}
         <div className="md:h-12 bg-primary1 text-primary2"><Navbar/></div>
         {/* content */}
-        <div className="max-w-full bg-primary1 py-5 border-t-2 border-primary2 flex lg:flex-1 lg:overflow-hidden flex-col gap-4 lg:flex-row lg:px-4 ">
+        <div className="w-full bg-primary1 py-5 border-t-2 border-primary2 flex lg:flex-1 lg:overflow-hidden flex-col gap-4 lg:flex-row lg:px-4 ">
             {/* teori dan contoh */}
             <div className="flex flex-col gap-4 w-11/12 bg-primary2 mx-auto rounded-lg lg:px-4 lg:w-3/5 flex-1 overflow-y-auto">
                 {/* Teori */}
@@ -61,7 +61,7 @@ return (
                 </div>
             </div>
             {/* latihan */}
-            <div className="flex flex-col gap-4 py-5 w-11/12 bg-primary2 h-11/12 mx-auto rounded-lg px-4 lg:w-2/5">
+            <div className="flex flex-col gap-4 py-5 w-11/12 bg-primary2 lg:h-11/12 mx-auto rounded-lg px-4 lg:w-2/5">
                 {/* title */}
                 <div className="font-bold justify">Latihan</div>
                 {/* perintah latihan */}
