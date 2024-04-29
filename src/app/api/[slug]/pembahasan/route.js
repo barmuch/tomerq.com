@@ -1,6 +1,7 @@
 import prisma from "@/utils/connect";
 import { NextResponse } from "next/server";
 
+
 // GET SINGLE Kurikulum
 export const GET = async (req, { params }) => {
   const { slug } = params;
@@ -11,6 +12,21 @@ export const GET = async (req, { params }) => {
         materiId : slug
       }, include : {
         latihan : {
+          include : {
+            item : true
+          }
+        },
+        contoh : {
+          include : {
+            item : true
+          }
+        },
+        catatan : {
+          include : {
+            item : true
+          }
+        },
+        kosakata : {
           include : {
             item : true
           }

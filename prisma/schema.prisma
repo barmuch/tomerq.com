@@ -107,40 +107,70 @@ model Pembahasan {
   materiId       String?   @unique @db.ObjectId
   kurikulumTitle String?
   teori          String?
-  contoh         Contoh[]
-  catatan        Catatan[]
-  latihan        Latihan?  
+  contoh         Contoh?
+  catatan        Catatan?
+  latihan        Latihan?
+  kosakata       Kosakata?  
 
   @@unique([materiTitle, materiId, kurikulumTitle])
 }
 
 model Contoh {
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  item         String
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
-  pembahasanId String?     @db.ObjectId
+  pembahasanId String?     @db.ObjectId @unique
   image        String?
+  item         Itemcontoh[]
+}
+
+model Kosakata {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
+  pembahasanId String?     @db.ObjectId @unique
+  item         Itemkosakata[]
 }
 
 model Catatan {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  item         String?
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId 
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
-  pembahasanId String?     @db.ObjectId
+  pembahasanId String?     @db.ObjectId @unique
+  item         Itemcatatan[]
 }
 
 model Latihan {
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  item         Item[]
+  item         Itemlatihan []
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
   pembahasanId String?     @db.ObjectId @unique
   petunjuk     String?
 }
 
-model Item{
+model Itemlatihan{
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
   latihan      Latihan?    @relation(fields: [latihanId], references: [id])
   latihanId    String?     @db.ObjectId
   question     String?
   answer       String?
+  input        String?
+}
+
+model Itemkosakata{
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  kosakata     Kosakata?   @relation(fields: [kosakataId], references: [id])
+  kosakataId   String?     @db.ObjectId
+  poin         String?
+}
+
+model Itemcontoh{
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  contoh       Contoh?    @relation(fields: [contohId], references: [id])
+  contohId     String?     @db.ObjectId
+  poin         String?
+}
+
+model Itemcatatan {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  catatan      Catatan?    @relation(fields: [catatanId], references: [id])
+  catatanId    String?     @db.ObjectId
+  poin         String?
 }

@@ -6,11 +6,9 @@ import { useEffect, useState } from "react"
 import { app } from "@/utils/firebase"
 
 const About = () => {
-const [imageUrl, setImageUrl] = useState('')
-
-  
-  const storage = getStorage(app);
-  const forestRef = ref(storage, 'images/github.png');
+const [imageUrl, setImageUrl] = useState('')  
+const storage = getStorage(app);
+const forestRef = ref(storage, 'images/github.png')
 
   getDownloadURL(forestRef)
     .then((url) => {
