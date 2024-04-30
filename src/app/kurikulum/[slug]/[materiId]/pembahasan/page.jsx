@@ -58,12 +58,12 @@ return (
             <div className="flex flex-col gap-4 w-11/12 bg-primary2 mx-auto rounded-lg lg:px-4 lg:w-3/5 flex-1 overflow-y-auto overflow-x-hidden">
                 {/* Teori */}
                 <div className=" flex flex-col border-b-2 border-black p-4">
-                    <div className="items-start font-bold text-2xl"> {data?.materiTitle}</div>
-                    <div className=" mt-2 text-justify indent-6 text-2xl" ><div dangerouslySetInnerHTML={{ __html: data?.teori }} /></div>
+                    <div className="items-start font-bold lg:text-2xl"> {data?.materiTitle}</div>
+                    <div className=" mt-2 text-justify indent-6 lg:text-2xl" ><div dangerouslySetInnerHTML={{ __html: data?.teori }} /></div>
                 </div> 
                 {/* contoh */}
                 <div className="p-4 flex flex-col">
-                    <div className="items-start font-bold border-black text-2xl">contoh</div>
+                    <div className="items-start font-bold border-black lg:text-2xl">contoh</div>
                     {/* list contoh item */}
                     <Image src={imageUrl} 
                     alt=""
@@ -75,13 +75,18 @@ return (
                 </div>
                 
                 {/* catatan */}
-                {/* {data?.catatan?.item&&(
+                {data?.catatan?.item&&(
                 <div className="border-2 border-primary1 m-2 rounded-lg">
-                    <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg">Catatan</div>
-                    <div className="text-justify p-2">Huruf yang berwarna merah adalah huruf vokal terakhir kata tersebut. Jika termasuk kedalam salah satu huruf Kalın [ a, ı, o, u ], maka akan berimbuhan -lar. Jika termasuk kedalam salah satu huruf İnce [ e, i, ö, ü ], maka akan berimbuhan   -ler</div>
+                    <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg text-2xl">Catatan</div>
+                    {data?.catatan?.item?.map((item)=>{
+                        return (
+                        <div className="text-justify p-2 lg:text-2xl" key={item.id}><div dangerouslySetInnerHTML={{ __html: item?.poin }} /></div>
+                        )
+                    })}
                 </div>
-                )} */}
-                {data?.kosakata?.item&&(<div className="border-2 border-primary1 m-2 rounded-lg w-full text-2xl">
+                )}
+                {/* kosakata */}
+                {data?.kosakata?.item&&(<div className="border-2 border-primary1 m-2 rounded-lg w-full lg:text-2xl">
                     <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg">Kosakata</div>
                     <div className="text-justify p-2 flex flex-col lg:flex-row flex-wrap lg:pl-10">
                         {data?.kosakata?.item?.map((item)=>{
@@ -96,7 +101,7 @@ return (
                 
             </div>
             {/* latihan */}
-            <div className="flex flex-col text-2xl gap-4 py-5 w-11/12 bg-primary2 lg:h-11/12 mx-auto rounded-lg px-4 lg:w-2/5 overflow-y-auto">
+            <div className="flex flex-col lg:text-2xl gap-4 py-5 w-11/12 bg-primary2 lg:h-11/12 mx-auto rounded-lg px-4 lg:w-2/5 overflow-y-auto">
                 {/* title */}
                 <div className="font-bold justify">Latihan</div>
                 {/* perintah latihan */}
@@ -126,8 +131,8 @@ return (
                     }
                     const kalimat = question.question
                     const posisiInput = kalimat.indexOf(question.input);
-                    const kalimatAwal = kalimat.slice(0, posisiInput + 1);
-                    const kalimatAkhir = kalimat.slice(posisiInput + 1);
+                    const kalimatAwal = kalimat.slice(0, posisiInput + question.input.length);
+                    const kalimatAkhir = kalimat.slice(posisiInput + question.input.length);
                     
                     return (
                         <div className="flex flex-row justify-between" key={question.id}>
