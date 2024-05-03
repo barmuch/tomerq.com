@@ -5,6 +5,7 @@ import Loading from "@/components/loading/page"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { app } from "@/utils/firebase"
 import Image from "next/image"
+import converterAngka from "@/utils/converterAngka"
 
 const Pembahasan = ({params}) => {
     const [data, setData] = useState()
@@ -13,6 +14,8 @@ const Pembahasan = ({params}) => {
     const [inputAnswer, setInputAnswer] = useState('')
     const [result, setResult] = useState({})
     const [imageUrl, setImageUrl] = useState('')  
+    const [angkaInput, setAngkaInput] = useState('');
+    const [teksOutput, setTeksOutput] = useState('');
     
     useEffect(() => {
         const getData = async(materiId) => {
@@ -47,7 +50,23 @@ const Pembahasan = ({params}) => {
         .catch((error) => {
             console.error("Error getting download URL:", error);
         });
-    console.log(data)
+    
+    
+        const handleInputChange = (event) => {
+            setAngkaInput(event.target.value);
+        };
+    
+        const konversiAngkaKeTeks = () => {
+            const angka = parseInt(angkaInput, 10);
+            if (!isNaN(angka)) {
+                const teks = converterAngka(angka);
+                setTeksOutput(teks);
+            } else {
+                setTeksOutput('Masukkan angka yang valid');
+            }
+        
+    }
+
 return (
     <div className=" flex flex-col h-screen">
         {/* navbar */}
@@ -65,14 +84,20 @@ return (
                 <div className="p-4 flex flex-col">
                     <div className="items-start font-bold border-black lg:text-2xl">contoh</div>
                     {/* list contoh item */}
-                    <Image src={imageUrl} 
-                    alt=""
-                    width={800}
-                    height={800}
-                    
-                    
-                     />
+                    {data?.contoh?.image&&(
+                        <Image src={imageUrl} 
+                        alt=""
+                        width={800}
+                        height={800}                
+                         />
+                    )}
+                    {data?.contoh?.item?.map((item)=>{
+                        return (
+                        <div className="text-justify p-2 lg:text-2xl" key={item.id}><div dangerouslySetInnerHTML={{ __html: item?.poin }} /></div>
+                        )
+                    })}
                 </div>
+                {/* converter */}
                 
                 {/* catatan */}
                 {data?.catatan?.item&&(
@@ -103,7 +128,22 @@ return (
             {/* latihan */}
             <div className="flex flex-col lg:text-2xl gap-4 py-5 w-11/12 bg-primary2 lg:h-11/12 mx-auto rounded-lg px-4 lg:w-2/5 overflow-y-auto">
                 {/* title */}
-                <div className="font-bold justify">Latihan</div>
+                {data?.latihan&&(
+                    <div className="font-bold justify">Latihan</div>
+                )}   
+                    {/* converter */}
+                {data?.materiId === '662cb0d79baf839692c266b4' && (
+                    <div className="border-2 border-primary1 m-2 rounded-lg text-2xl">
+                        <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg"> Cari tau!</div>
+                        <div className="p-2">
+                            <div className="mr-2"> Masukkan angka yang ingin kamu cari tau</div>
+                            <input type="number" value={angkaInput} onChange={handleInputChange} />
+                                <button onClick={konversiAngkaKeTeks} className="bg-primary1 text-primary2 px-2 ml-2 py-1 rounded-lg hover:bg-hover2">Konversi</button>
+                            <div>hasil: {teksOutput}</div>
+                        </div>
+                    </div>
+
+                )}   
                 {/* perintah latihan */}
                 <div className="text-justify indent-6">
                     <div dangerouslySetInnerHTML={{ __html: data?.latihan?.petunjuk  }} />                  
@@ -123,7 +163,7 @@ return (
 
                         const userAnswer = inputAnswer[questionId];
                         const correctAnswer = data.latihan.item.find(question => question.id === questionId).answer;
-                        const isCorrect = userAnswer && userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+                        const isCorrect = userAnswer.toString && userAnswer.toLowerCase() === correctAnswer.toLowerCase();
                         setResult(prevState => ({
                         ...prevState,
                         [questionId]: isCorrect
@@ -140,7 +180,7 @@ return (
                                 {kalimatAwal}<input
                                 className="border-b border-black"
                                 type="text"
-                                style={{ width: "75px" }}
+                                style={{ width: "75px"  }}
                                 onChange={(event) => handleChange(question.id, event)}
                                 />{kalimatAkhir}
 
