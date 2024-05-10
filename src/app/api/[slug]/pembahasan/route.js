@@ -30,7 +30,8 @@ export const GET = async (req, { params }) => {
           include : {
             item : true
           }
-        }
+        },
+        tips : true
       }
     });
 

@@ -66,7 +66,7 @@ const Pembahasan = ({params}) => {
             }
         
     }
-
+ console.log(data)
 return (
     <div className=" flex flex-col h-screen">
         {/* navbar */}
@@ -99,7 +99,7 @@ return (
                 </div>
                 {/* converter */}
                 
-                {/* catatan */}
+                {/* catatan */}  
                 {data?.catatan?.item&&(
                 <div className="border-2 border-primary1 m-2 rounded-lg">
                     <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg text-2xl">Catatan</div>
@@ -110,6 +110,15 @@ return (
                     })}
                 </div>
                 )}
+                {/* TIPS */}
+                {data?.tips&&(
+                <div className="border-2 border-primary1 m-2 rounded-lg">
+                    <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg text-2xl">Tips</div>
+                        <div className="text-justify p-2 lg:text-2xl" ><div dangerouslySetInnerHTML={{ __html: data?.tips?.item }} /></div>
+                        
+                </div>
+                )}
+
                 {/* kosakata */}
                 {data?.kosakata?.item&&(<div className="border-2 border-primary1 m-2 rounded-lg w-full lg:text-2xl">
                     <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg">Kosakata</div>
@@ -152,13 +161,17 @@ return (
                 <div className="flex flex-col gap-2">
                    {data?.latihan?.item.map((question)=>{
                     const handleChange = (questionId, event) => {
-                        const cleanedValue = event.target.value.replace(/[^a-zA-Z]/g, '')
+                        const cleanedValue = event.target.value.replace(/[^a-zA-ZığüşöçĞÜŞÖÇıİ]/g, '');
                         setInputAnswer(prevState => ({
                           ...prevState,
                           [questionId]: cleanedValue
                         }))
                     }
-                    
+                    const handleKeyDown = (event, questionId) => {
+                        if (event.key === "Enter") {
+                          checkAnswer(questionId);
+                        }
+                      }
                     const checkAnswer = (questionId) => {                     
 
                         const userAnswer = inputAnswer[questionId];
@@ -182,6 +195,8 @@ return (
                                 type="text"
                                 style={{ width: "75px"  }}
                                 onChange={(event) => handleChange(question.id, event)}
+                                onKeyDown={(event) => handleKeyDown(event, question.id)} 
+
                                 />{kalimatAkhir}
 
                               

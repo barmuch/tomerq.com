@@ -110,7 +110,8 @@ model Pembahasan {
   contoh         Contoh?
   catatan        Catatan?
   latihan        Latihan?
-  kosakata       Kosakata?  
+  kosakata       Kosakata?
+  tips           Tips?  
 
   @@unique([materiTitle, materiId, kurikulumTitle])
 }
@@ -143,6 +144,13 @@ model Latihan {
   Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
   pembahasanId String?     @db.ObjectId @unique
   petunjuk     String?
+}
+
+model Tips {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  item         String?
+  Pembahasan   Pembahasan? @relation(fields: [pembahasanId], references: [id])
+  pembahasanId String?     @db.ObjectId @unique
 }
 
 model Itemlatihan{
