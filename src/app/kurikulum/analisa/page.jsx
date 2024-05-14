@@ -53,7 +53,7 @@ const Analisa = () => {
                 <div className="flex flex-col lg:text-2xl gap-4 py-5 w-11/12 bg-primary2 lg:h-11/12 mx-auto rounded-lg px-4 lg:w-2/5 overflow-y-auto">
                     <div className="text-2xl font-semibold text-black text-center">Converter</div>
                     <div className="indent-6 lg:text-2xl text-xl text-black text-start">Masukkan kata kerja dasar dan ubah jadi Şimdiki Zaman</div>
-                    <input type="text" value={input} onChange={handleInputChange} />
+                    <input type="text" value={input} onChange={handleInputChange} className="border-black border-2 placeholder-gray-500 px-2 py-1 text-gray-500" placeholder="masukkan kata dasar...gi"/>
                     <button onClick={convert} className="bg-primary1 text-primary2 px-2 ml-2 py-1 rounded-lg hover:bg-hover2">konversi</button>
                     <div>hasil: {output}</div>
                 </div>
