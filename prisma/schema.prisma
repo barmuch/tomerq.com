@@ -96,14 +96,16 @@ model Materi {
   kurikulum      Kurikulum?  @relation(fields: [kurikulumTitle], references: [title])
   kurikulumTitle String?
   pembahasan     Pembahasan?
+  no             String?
 
-  @@unique([title, id, kurikulumTitle])
+  @@unique([title, slug, id, kurikulumTitle])
 }
 
 model Pembahasan {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  materi         Materi?   @relation(fields: [materiTitle, materiId, kurikulumTitle], references: [title, id, kurikulumTitle])
+  materi         Materi?   @relation(fields: [materiTitle, materiSlug, materiId, kurikulumTitle], references: [title, slug, id, kurikulumTitle])
   materiTitle    String?   @unique
+  materiSlug     String?   @unique
   materiId       String?   @unique @db.ObjectId
   kurikulumTitle String?
   teori          String?
@@ -111,9 +113,11 @@ model Pembahasan {
   catatan        Catatan?
   latihan        Latihan?
   kosakata       Kosakata?
-  tips           Tips?  
+  tips           Tips?
+  perubahan      Boolean?
+   
 
-  @@unique([materiTitle, materiId, kurikulumTitle])
+  @@unique([materiTitle, materiSlug, materiId, kurikulumTitle])
 }
 
 model Contoh {
