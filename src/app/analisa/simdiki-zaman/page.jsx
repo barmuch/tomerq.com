@@ -83,7 +83,7 @@ const Analisa = () => {
                 <div className="flex flex-col gap-6 w-11/12 bg-primary2 mx-auto rounded-lg lg:px-4 lg:w-3/5 flex-1 overflow-y-auto overflow-x-hidden lg:p-4 p-2">
                     <div className="lg:text-2xl text-xl font-semibold text-black text-start">Analisa Grammar</div>
                     <div className="lg:text-3xl text-2xl font-bold text-black text-center">Şimdiki Zaman(yor)</div>
-                    <div className="indent-6 lg:text-2xl text-xl text-black lg:text-start text-justify"> Sebelum menganalisa perubahan Şimdiki Zaman, pastikan teman-teman sudah paham materi Şahış(kata ganti orang) dan materi kata kerja dasar terlebih dahulu</div>
+                    <div className="indent-6 lg:text-2xl text-xl text-black lg:text-start text-justify"> Sebelum menganalisa perubahan Şimdiki Zaman, pastikan teman-teman sudah paham materi sahış(kata ganti orang) dan materi kata kerja dasar terlebih dahulu</div>
                     <div className="indent-6 lg:text-2xl text-xl text-black text-start"> Contoh tahapan mengubah kata kerja dasar menjadi Şimdiki Zaman</div>
                     {imageUrl && <Image src={imageUrl} alt="" width={800} height={800} className="object-contain lg:ml-auto" />}
                     <div className="border-2 border-primary1 m-2 rounded-lg">

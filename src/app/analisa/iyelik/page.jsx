@@ -5,8 +5,7 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { app } from "@/utils/firebase";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import {ben, sen, o, biz, siz, onlar} from "@/utils/isimCumleleriConverter"
-import {benSoru, senSoru, oSoru, bizSoru, sizSoru, onlarSoru} from "@/utils/isimCumleleriSoru"
+import {ben, sen, o, biz, siz, onlar} from "@/utils/iyelikConverter"
 
 
 const Analisa = () => {
@@ -18,7 +17,7 @@ const Analisa = () => {
 
     const storage = getStorage(app);
     // Analisa Url
-    const forestRefAnalisa = ref(storage, `images/${selectedImage}/isim-cumleleri.png`) 
+    const forestRefAnalisa = ref(storage, `images/${selectedImage}/iyelik.png`) 
     getDownloadURL(forestRefAnalisa)
         .then((url) => {
             setAnalisaUrl(url);
@@ -44,50 +43,14 @@ const Analisa = () => {
             {'biz': biz(input)}, 
             {'siz' : siz(input)}, 
             {'onlar': onlar(input)}];
-        
-        const negatif = [
-            { ben: 'değilim' }, 
-            { sen: 'değilsin' },
-            { o: 'değil' },
-            { biz: 'değiliz' },
-            { siz: 'değilsiniz' },
-            { onlar: 'değiller' }
-        ]
 
         const result = hasil.map(obj => {
             const key = Object.keys(obj)[0];
             const value = obj[key];
-            const negatifValue = negatif.find(neg => neg.hasOwnProperty(key))[key];
-            return { key, value, negatif: input + ' ' + negatifValue };
+            return { key, value};
         });
 
-        setSubjek(result);
-
-        const hasilSoru = [
-            {'ben' : benSoru(input)}, 
-            {'sen' : senSoru(input)}, 
-            {'o' : oSoru(input)}, 
-            {'biz': bizSoru(input)}, 
-            {'siz' : sizSoru(input)}, 
-            {'onlar': onlarSoru(input)}];
-        
-        const negatifSoru = [
-            { ben: 'değil miyim ?' }, 
-            { sen: 'değil misin ?' },
-            { o: 'değil mi ?' },
-            { biz: 'değil miyiz ?' },
-            { siz: 'değil misiniz ?' },
-            { onlar: 'değiller mi ?' }
-        ]
-
-        const resultSoru = hasilSoru.map(obj => {
-            const key = Object.keys(obj)[0];
-            const value = obj[key];
-            const negatifValue = negatifSoru.find(neg => neg.hasOwnProperty(key))[key];
-            return { key, value, negatif: input + ' ' + negatifValue };
-        });
-
-        setSoru(resultSoru);
+        setSubjek(result); 
     };
 
     return (
@@ -101,8 +64,8 @@ const Analisa = () => {
                 {/* teori dan contoh */}
                 <div className="flex flex-col gap-6 w-11/12 bg-primary2 mx-auto rounded-lg lg:px-4 lg:w-3/5 flex-1 overflow-y-auto overflow-x-hidden lg:p-4 p-2">
                     <div className="lg:text-2xl text-xl font-semibold text-black text-start">Analisa Grammar</div>
-                    <div className="lg:text-3xl text-2xl font-bold text-black text-center">İsim Cümleleri</div>
-                    <div className="indent-6 lg:text-2xl text-xl text-black lg:text-start text-justify"> Sebelum menganalisa perubahan İsim Cümleleri, pastikan teman-teman sudah paham materi sahış(kata ganti orang) terlebih dahulu</div>
+                    <div className="lg:text-3xl text-2xl font-bold text-black text-center">İyelik Ekleri</div>
+                    <div className="indent-6 lg:text-2xl text-xl text-black lg:text-start text-justify"> Sebelum menganalisa perubahan İyelik Ekleri, pastikan teman-teman sudah paham materi sahış(kata ganti orang) terlebih dahulu</div>
                     {/* <div className="border-2 border-primary1 m-2 rounded-lg">
                     <div className="font-medium bg-primary1 text-primary2 inline-block p-1 rounded-br-lg text-2xl">Catatan</div>
                         <div className="lg:text-2xl text-xl mx-2">beberapa kata pengecualian :</div>                   
@@ -150,40 +113,19 @@ const Analisa = () => {
                         {subjek&&(<div className="flex flex-col gap-2">
                             <div>Hasil İsim Cümleleri</div>
                             <div className="divide-y gap-2 border-black border-2">
-                                <div className="grid grid-cols-7 text-center items-center divide-x p-1 bg-primary1 text-primary2">
-                                    <div className="col-span-1 px-2 text-base">Subjek</div>
-                                    <div className="col-span-3">+</div>
-                                    <div className="col-span-3">-</div>
+                                <div className="grid grid-cols-6 text-center items-center divide-x p-1 bg-primary1 text-primary2">
+                                    <div className="col-span-1">Subjek</div>
+                                    <div className="col-span-5">Iyelik</div>
                                 </div>
                                 {subjek.map((item, index) => (
-                                <div className="grid grid-cols-7 text-center divide-x p-1" key={item}>
+                                <div className="grid grid-cols-6 text-center divide-x p-1" key={item}>
                                     <div className="col-span-1">{item.key}</div>
-                                    <div className="col-span-3">{item.value}</div>
-                                    <div className="col-span-3">{item.negatif}</div>
+                                    <div className="col-span-5">{item.value}</div>
                                 </div>
                                 ))}                            
                             </div>
-                                                        
-                            <div className="divide-y gap-2 border-black border-2">
-                                <div className="grid grid-cols-7 text-center items-center divide-x p-1 bg-primary1 text-primary2">
-                                    <div className="col-span-1 px-2 text-base">Subjek</div>
-                                    <div className="col-span-3">+?</div>
-                                    <div className="col-span-3">-?</div>
-                                </div>
-                                {soru.map((item, index) => (
-                                <div className="grid grid-cols-7 text-center divide-x p-1" key={item}>
-                                    <div className="col-span-1">{item.key}</div>
-                                    <div className="col-span-3">{item.value}</div>
-                                    <div className="col-span-3">{item.negatif}</div>
-                                </div>
-                                ))}                            
-                            </div>
-                        </div>)}
-                        
-                    
-                
-                        
-                        
+
+                        </div>)}                      
                     </div>
                     
                 </div>

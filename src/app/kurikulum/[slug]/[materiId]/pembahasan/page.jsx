@@ -17,18 +17,12 @@ const Pembahasan = ({params}) => {
     const [inputAnswer, setInputAnswer] = useState('')
     const [result, setResult] = useState({})
     const [imageUrl, setImageUrl] = useState('')
-    const [analisaUrl, setAnalisaUrl] = useState('')
     const [angkaInput, setAngkaInput] = useState('');
     const [jam, setJam] = useState('');
     const [menit, setMenit] = useState('');
     const [jamTeks, setJamTeks] = useState('')
     const [teksOutput, setTeksOutput] = useState('');
-    const [selectedImage, setSelectedImage] = useState(null);
 
-    const handleImageChange = (event) => {
-        const selectedOption = event.target.value;
-        setSelectedImage(selectedOption);
-    };
     
     useEffect(() => {
         const getData = async(materiId) => {
@@ -64,15 +58,7 @@ const Pembahasan = ({params}) => {
             console.error("Error getting download URL:", error);
         });
     
-    // Analisa Url
-    const forestRefAnalisa = ref(storage, `images/${selectedImage}/${data?.materiSlug}.png`) 
-    getDownloadURL(forestRefAnalisa)
-        .then((url) => {
-            setAnalisaUrl(url);
-        })
-        .catch((error) => {
-            console.error("Error getting download URL:", error);
-        });
+    
         const handleInputChange = (event) => {
             setAngkaInput(event.target.value);
         };
@@ -183,38 +169,14 @@ return (
                         alt=""
                         width={800}
                         height={800}                
-                         />
+                        className="pointer-events-none" />
                     )}
                     {data?.contoh?.item?.map((item)=>{
                         return (
                         <div className="text-justify p-2 lg:text-2xl" key={item.id}><div dangerouslySetInnerHTML={{ __html: item?.poin }} /></div>
                         )
                     })}
-                </div>)}
-                
-                {/* Perubahan Grammar */}
-                {data?.materiId === '662cb2809baf839692c266c3' &&(
-                    <div className="p-4 flex flex-col">
-                        <div className="items-start font-bold border-black lg:text-2xl">Perubahan imbuhan berdasasarkan subjek</div>
-                        <div className="items-start border-black lg:text-xl flex flex-row mt-2 items-center gap-2">
-                            <div>Subject</div>
-                            <select className="border border-gray-300 rounded p-2" onChange={handleImageChange} >
-                                <option value="">Pilih subjek...</option>
-                                <option value="ben">Ben</option>
-                                <option value="sen">Sen</option>
-                                <option value="o">O</option>
-                                <option value="biz">Biz</option>
-                                <option value="siz">Siz</option>
-                                <option value="onlar">Onlar</option>
-                            </select>                  
-                        </div>
-                        {selectedImage && (
-                        <div className="mt-4">
-                            <Image src={analisaUrl} alt={`Image ${selectedImage}`} className="mt-2" width={800} height={800}/>
-                        </div>
-                    )}
-                    </div>
-                 )} 
+                </div>)} 
                 
                 {/* catatan */}  
                 {data?.catatan?.item&&(
