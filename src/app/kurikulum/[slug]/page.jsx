@@ -64,29 +64,35 @@ const Materi = ({ params }) => {
                     <div className="text-center text-2xl">{data?.quoteFrom}</div>
                     {/* Materi */}
                     <div className="flex flex-col w-4/5 items-start gap-2 my-6">
-                        {sortedMateri.map((materi, index) => {
-                            const isBabOpen = openBab[materi.bab];
-                            const isFirstOccurrence = sortedMateri.findIndex((item) => item.bab === materi.bab) === index;
-                            return isFirstOccurrence && (
-                                <div key={materi.bab} className="flex flex-col gap-2 w-full">
-                                    {/* Bab */}
-                                    <div className="bab text-2xl text-primary2 bg-primary1 w-full rounded-lg p-2 flex flex-row gap-2 items-center cursor-pointer hover:bg-hover2" onClick={() => toggleBab(materi.bab)}>
-                                        <div className="bab">{`${materi.bab}`}</div>
-                                    </div>
-                                    {/* Materi List */}
-                                    {isBabOpen && (
-                                        <div className="item flex flex-col text-black">
-                                            {sortedMateri.filter((item) => item.bab === materi.bab).map((materiFiltered) => (
-                                                <Link key={materiFiltered.title} href={`/kurikulum/${data?.slug}/${materiFiltered.id}/pembahasan`} className="font-sans bg-black justify-items-start text-xl pl-3 fo">
-                                                    <span>&#9745;</span> {materiFiltered.title}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    )}
+                    {Object.entries(sortedMateri.reduce((acc, materi) => {
+                        if (!acc[materi.bab]) {
+                            acc[materi.bab] = [];
+                        }
+                        acc[materi.bab].push(materi);
+                        return acc;
+                    }, {})).sort(([babA], [babB]) => babA.localeCompare(babB)).map(([bab, materiArray]) => {
+                        const isBabOpen = openBab[bab];
+                        return (
+                            <div key={bab} className="flex flex-col gap-2 w-full">
+                                {/* Bab */}
+                                <div className="bab text-2xl text-primary2 bg-primary1 w-full rounded-lg p-2 flex flex-row gap-2 items-center cursor-pointer hover:bg-hover2" onClick={() => toggleBab(bab)}>
+                                    <div className="bab">{bab}</div>
                                 </div>
-                            );
-                        })}
-                    </div>
+                                {/* Materi List */}
+                                {isBabOpen && (
+                                    <div className="item flex flex-col text-black">
+                                        {materiArray.map((materiFiltered) => (
+                                            <Link key={materiFiltered.title} href={`/kurikulum/${data?.slug}/${materiFiltered.id}/pembahasan`} className="font-sans bg-black justify-items-start text-xl pl-3 fo">
+                                                <span>&#9745;</span> {materiFiltered.title}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+</div>
+
                 </div>
             </div>
         </div>

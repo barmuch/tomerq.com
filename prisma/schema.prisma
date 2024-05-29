@@ -114,7 +114,7 @@ model Pembahasan {
   latihan        Latihan?
   kosakata       Kosakata?
   tips           Tips?
-  perubahan      Boolean?
+  analisa        String?
    
 
   @@unique([materiTitle, materiSlug, materiId, kurikulumTitle])

@@ -6,11 +6,16 @@ const convertSimdikiZaman = (input) => {
 
     const specialCases = {
         'gitmek': 'gidiyor',
-        'etmek': 'ediyor',
         'tatmak': 'tadıyor',
-        'gütmek': 'güdüyor'
+        'gütmek': 'güdüyor',
+        'yemek' : 'yiyor',
+        'demek' : 'diyor'
     };
+    const words = input.split(' ');
 
+    if (input.includes("etmek")) {
+        return input.slice(0, -4) + 'diyor';
+    }
     if (specialCases[input.toLowerCase()]) {
         return specialCases[input.toLowerCase()];
     }
