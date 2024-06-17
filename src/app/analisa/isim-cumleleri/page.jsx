@@ -144,7 +144,7 @@ const Analisa = () => {
                     <div className="text-2xl font-semibold text-black text-center">Converter</div>
                     <div className="indent-6 lg:text-2xl text-xl text-black text-start">Masukkan kata benda dan ubah jadi İsim cümleleri</div>
                     <input type="text" value={input} onChange={handleInputChange} className="border-black border-2 placeholder-gray-500 px-2 py-1 text-gray-500" placeholder="masukkan kata benda..." />
-                    <button onClick={convert} className="bg-primary1 text-primary2 px-2 ml-2 py-1 rounded-lg hover:bg-hover2">konversi</button>
+                    <button onClick={convert} className="bg-primary1 text-primary2 px-2 py-1 rounded-lg hover:bg-hover2">konversi</button>
                     <div className="flex flex-col gap-2">
                         
                         {subjek&&(<div className="flex flex-col gap-2">
@@ -185,8 +185,12 @@ const Analisa = () => {
                         
                         
                     </div>
-                    
+                    <div className="justify-self-end flex flex-row gap-2 text-2xl">
+                    <button className="border-2 rounded-lg w-2/3 border-primary1 text-primary1 font-bold cursor-pointer hover:bg-hover1">Tanya Forum</button>
+                    <button className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-hover2 cursor-pointer w-1/2  ">lanjut</button>
                 </div>
+                </div>
+                
             </div>
         </div>
     );

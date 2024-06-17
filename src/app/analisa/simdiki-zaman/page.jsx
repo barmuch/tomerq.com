@@ -145,7 +145,10 @@ const Analisa = () => {
                         
                         
                     </div>
-                    
+                    <div className="justify-self-end flex flex-row gap-2 text-2xl">
+                    <button className="border-2 rounded-lg w-2/3 border-primary1 text-primary1 font-bold cursor-pointer hover:bg-hover1">Tanya Forum</button>
+                    <button className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-hover2 cursor-pointer w-1/2  ">lanjut</button>
+                </div>
                 </div>
             </div>
         </div>
