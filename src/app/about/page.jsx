@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
 import { useEffect, useState } from "react"
-import { app } from "@/utils/firebase"
+import { app } from "@/lib/utils/firebase"
 
 const About = () => {
 const [imageUrl, setImageUrl] = useState('')  

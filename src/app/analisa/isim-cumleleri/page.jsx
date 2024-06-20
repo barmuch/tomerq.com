@@ -2,11 +2,11 @@
 
 import Navbar from "@/components/navbar";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { app } from "@/utils/firebase";
+import { app } from "@/lib/utils/firebase";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import {ben, sen, o, biz, siz, onlar} from "@/utils/isimCumleleriConverter"
-import {benSoru, senSoru, oSoru, bizSoru, sizSoru, onlarSoru} from "@/utils/isimCumleleriSoru"
+import {ben, sen, o, biz, siz, onlar} from "@/lib/utils/isimCumleleriConverter"
+import {benSoru, senSoru, oSoru, bizSoru, sizSoru, onlarSoru} from "@/lib/utils/isimCumleleriSoru"
 
 
 const Analisa = () => {

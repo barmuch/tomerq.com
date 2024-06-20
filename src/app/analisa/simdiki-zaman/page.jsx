@@ -2,11 +2,11 @@
 
 import Navbar from "@/components/navbar";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { app } from "@/utils/firebase";
+import { app } from "@/lib/utils/firebase";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import converter from "@/utils/converterSimdikiZaman"
-import converterNegatif from "@/utils/converterSimdikiZamanNegatif"
+import converter from "@/lib/utils/converterSimdikiZaman"
+import converterNegatif from "@/lib/utils/converterSimdikiZamanNegatif"
 
 const Analisa = () => {
     const [imageUrl, setImageUrl] = useState('');

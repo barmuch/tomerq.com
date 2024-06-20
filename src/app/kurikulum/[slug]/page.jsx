@@ -43,11 +43,9 @@ const Materi = ({ params }) => {
 
     // Menyortir data materi berdasarkan nomor bab dan nomor materi
     const sortedMateri = [...data.materi].sort((a, b) => {
-        if (a.bab !== b.bab) {
-            return a.bab - b.bab;
-        } else {
-            return a.no - b.no;
-        }
+        
+            return a.nomor - b.nomor;
+        
     });
 
     return (
@@ -71,7 +69,7 @@ const Materi = ({ params }) => {
                         acc[materi.bab].push(materi);
                         return acc;
                     }, {})).sort(([babA], [babB]) => babA.localeCompare(babB)).map(([bab, materiArray]) => {
-                        const isBabOpen = openBab[bab];
+                        const isBabOpen = openBab[bab]
                         return (
                             <div key={bab} className="flex flex-col gap-2 w-full">
                                 {/* Bab */}

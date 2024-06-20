@@ -42,7 +42,6 @@ const Navbar = () => {
     setOpenUser((prevState) => !prevState);
     setOpenMenu(false);
   };
-
   return (
     <div className="flex justify-between px-6 sm:px-8 p-1 md:px-12 lg:px-16 xl:px-32 h-full justify-center items-center" ref={containerRef}>
       {/* Logo Start */}
@@ -71,18 +70,22 @@ const Navbar = () => {
         )}
         {/* User Button */}
         <div className="relative object-contain cursor-pointer" onClick={toggleUser}>
-          <Image src="/user-icon.png" width={30} height={30} alt="" />
+        {status === 'authenticated' ? (
+          <Image src={session.user.image} width={30} height={30} alt="User Image" className="rounded-full" />
+        ) : (
+          <Image src="/user-icon.png" width={30} height={30} alt="Default User Icon" />
+        )}
         </div>
         {/* User Dashboard */}
         {openUser && (
+
           <div className="absolute top-14 lg:top-12 lg:w-1/4 right-0 w-screen max-h-full h-fit bg-primary1 text-primary2 text-2xl z-50 flex flex-col gap-0 pl-3 py-3 border-t-1">
             {/* dashboard items */}
             {status === "authenticated" ? (
               <div className="flex flex-col gap-4">
-                <div className="">Nama      :</div>
-                <div className="">Institusi :</div>
-                <div className="text-center">Premium</div>
-                <div className="text-center cursor-pointer hover:bg-primary2 hover:text-primary1" onClick={signOut}>logout</div>
+                <div className="text-center">{session.user.name}</div> 
+                <div className="text-center">{session.user.email}</div> 
+                <div className="text-center cursor-pointer bg-primary2 text-primary1 my-1 rounded-lg hover:bg-hover1" onClick={signOut}>logout</div>
               </div>
             ) : (
               <div className="flex flex-col justify-center">

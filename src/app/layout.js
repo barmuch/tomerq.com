@@ -1,7 +1,7 @@
 
 import "./globals.css";
 import localFont from "next/font/local"
-import AuthProvider from "@/providers/AuthProvider";
+import AuthProvider from "@/lib/providers/AuthProvider";
 
 
 const myFont = localFont({

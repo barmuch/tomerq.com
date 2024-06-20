@@ -50,7 +50,7 @@ const Kurikulum = () => {
                     <div className=" text-xl lg:text-3xl text-black justify-start font-bold w-11/12 lg:w-3/5  mx-auto">Kurikulum</div>
                     {/* Mapping data kurikulum */}
                     {data?.map((kurikulum) => (
-                        <Link href={`/kurikulum/${kurikulum.slug}`} key={kurikulum.slug} className="flex flex-row bg-primary2 text-black w-max-full p-2 rounded-lg mx-auto w-11/12 lg:w-3/5 hover:bg-hover1 cursor-pointer border-2 border-black">
+                        <Link href={`/kurikulum/${kurikulum.slug}`} key={kurikulum.slug} className="flex flex-row bg-primary2 text-black w-max-full p-2 rounded-lg mx-auto w-11/12 lg:w-3/5 hover:bg-hover1 cursor-pointer border-2 border-black ">
                             {kurikulum.title}
                         </Link>   
                     ))}

@@ -11,5 +11,14 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     
     }) 
-  ]
+  ],
+  callbacks: {
+    async session({ session, user }) {
+      // Menyimpan user ID di sesi
+      session.user.id = user.id;
+      session.user.email = user.email;
+      session.user.image = user.image
+      return session;
+    }
+  }
 }

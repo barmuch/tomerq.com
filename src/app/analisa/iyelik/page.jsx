@@ -2,10 +2,10 @@
 
 import Navbar from "@/components/navbar";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { app } from "@/utils/firebase";
+import { app } from "@/lib/utils/firebase";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import {ben, sen, o, biz, siz, onlar} from "@/utils/iyelikConverter"
+import {ben, sen, o, biz, siz, onlar} from "@/lib/utils/iyelikConverter"
 
 
 const Analisa = () => {

@@ -3,12 +3,12 @@ import Navbar from "@/components/navbar"
 import {useState, useEffect} from "react"
 import Loading from "@/components/loading/page"
 import { getStorage, ref, getDownloadURL } from "firebase/storage"
-import { app } from "@/utils/firebase"
+import { app } from "@/lib/utils/firebase"
 import Image from "next/image"
 import Link from "next/link"
-import converterAngka from "@/utils/converterAngka"
- 
-
+import converterAngka from "@/lib/utils/converterAngka"
+import konversiJamKeTeks from "@/lib/utils/converterJam"
+import { useRouter } from "next/navigation";
 
 const Pembahasan = ({params}) => {
     const [data, setData] = useState()
@@ -22,26 +22,50 @@ const Pembahasan = ({params}) => {
     const [menit, setMenit] = useState('');
     const [jamTeks, setJamTeks] = useState('')
     const [teksOutput, setTeksOutput] = useState('');
+    const [allMateri, setAllMateri] = useState();
 
+    const router = useRouter()
     
     useEffect(() => {
-        const getData = async(materiId) => {
+        const getData = async (materiId) => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${materiId}/pembahasan`)
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${materiId}/pembahasan`);
                 if (!res.ok) {
-                    throw new Error("Failed")
+                    throw new Error("Failed");
                 } else {
-                    const data = await res.json()
-                    setData(data)
-                    setLoading(false)
+                    const data = await res.json();
+                    setData(data);
+                    setLoading(false);
                 }
             } catch (error) {
-                console.log(error)
-                setLoading(false)
+                console.log(error);
+                setLoading(false);
             }
+        };
+
+        getData(materiId);
+    }, [materiId]);
+
+    useEffect(() => {
+        if (data) {
+            const getAllMateri = async () => {
+                try {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/kurikulums/${data.kurikulumSlug}`);
+                    if (!res.ok) {
+                        throw new Error("Failed to fetch all materi");
+                    } else {
+                        const kurikulumData = await res.json();
+                        setAllMateri(kurikulumData.materi);
+                        
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            getAllMateri();
         }
-        getData(materiId)
-    },[materiId])
+    }, [data]);
     
     if (loading) {
         return <Loading/>
@@ -78,74 +102,21 @@ const Pembahasan = ({params}) => {
                 setTeksOutput('Masukkan angka yang valid');
             } 
     }
-    const konversiJamKeTeks = () => {
-        if (jam === '' || menit === '') {
-          setJamTeks('Silahkan isi jam dan menit.');
-          return;
-        }
-    
-        let jamNum = parseInt(jam, 10);
-        const menitNum = parseInt(menit, 10);
-    
-        if (isNaN(jamNum) || isNaN(menitNum) || jamNum < 0 || jamNum > 24 || menitNum < 0 || menitNum > 59) {
-          setJamTeks('Invalid input. Masukkan jam dan menit yang benar');
-          return;
-        }
-        if (jamNum > 12) {
-            jamNum -= 12;
-        }
-    
-        const turkishJam0 = [
-          "sıfır", "bir", "iki", "üç", "dört", "beş", "altı", "yedi", "sekiz", "dokuz", "on", "on bir", "on iki"
-        ];
-    
-        const turkishJam1 = {
-          0: "sıfır", 1: "biri", 2: "ikiyi", 3: "üçü", 4: "dördü",
-          5: "beşi", 6: "altıyı", 7: "yediyi", 8: "sekizi", 9: "dokuzu",
-          10: "onu", 11: "on biri", 12: "on ikiyi"
-        };
-    
-        const turkishJam2 = {
-          0: "sıfır", 1: "bire", 2: "ikiye", 3: "üçe", 4: "dörde",
-          5: "beşe", 6: "altıya", 7: "yediye", 8: "sekize", 9: "dokuza",
-          10: "ona", 11: "on bire", 12: "on ikiye"
-        };
-    
-        const turkishMinutes = {
-          0: "", 1: "bir", 2: "iki", 3: "üç", 4: "dört",
-          5: "beş", 6: "altı", 7: "yedi", 8: "sekiz", 9: "dokuz",
-          10: "on", 11: "on bir", 12: "on iki", 13: "on üç", 14: "on dört",
-          15: "çeyrek", 16: "on altı", 17: "on yedi", 18: "on sekiz", 19: "on dokuz",
-          20: "yirmi", 21: "yirmi bir", 22: "yirmi iki", 23: "yirmi üç", 24: "yirmi dört",
-          25: "yirmi beş", 26: "yirmi altı", 27: "yirmi yedi", 28: "yirmi sekiz", 29: "yirmi dokuz",
-          30: "buçuk", 31: "otuz bir", 32: "otuz iki", 33: "otuz üç", 34: "otuz dört",
-          35: "otuz beş", 36: "otuz altı", 37: "otuz yedi", 38: "otuz sekiz", 39: "otuz dokuz",
-          40: "kırk", 41: "kırk bir", 42: "kırk iki", 43: "kırk üç", 44: "kırk dört",
-          45: "çeyrek", 46: "kırk altı", 47: "kırk yedi", 48: "kırk sekiz", 49: "kırk dokuz",
-          50: "elli", 51: "elli bir", 52: "elli iki", 53: "elli üç", 54: "elli dört",
-          55: "elli beş", 56: "elli altı", 57: "elli yedi", 58: "elli sekiz", 59: "elli dokuz"
-        };
-    
-        let hasil;
-    
-        if (menitNum == 0) {
-          hasil = `saat ${turkishJam0[jamNum]}`;
-        } else if (menitNum < 30) {
-          hasil = `saat ${turkishJam1[jamNum]} ${turkishMinutes[menitNum]} geçiyor `;
-        } else if (menitNum === 30) {
-            hasil = `saat ${turkishJam0[jamNum]} ${turkishMinutes[menitNum]}`
-        } else {
-          const nextHour = jamNum + 1;
-          const remainingMinutes = 60 - menitNum;
-          hasil = `saat ${turkishJam2[nextHour]} ${turkishMinutes[remainingMinutes]} var `;
-        }
-    
+    const handleKonversiJamKeTeks = () => {
+        const hasil = konversiJamKeTeks(jam, menit);
         setJamTeks(hasil);
-    }
+    };
     
-    console.log(jam)
-
- 
+    const handleNextClick = () => {
+        const sortedMateri = allMateri.sort((a, b) => a.nomor - b.nomor);
+        const currentIndex = sortedMateri.findIndex(materi => materi.id === materiId);
+        const nextMateri = sortedMateri[currentIndex + 1];
+        console.log(currentIndex)
+        if (nextMateri) {
+            router.push(`/kurikulum/${data.kurikulumSlug}/${nextMateri.id}/pembahasan`);
+        }
+    };
+    
 return (
     <div className=" flex flex-col h-screen">
         {/* navbar */}
@@ -258,7 +229,7 @@ return (
                                 </div>
                             </div>
                              <div className="justify-center flex mt-2">
-                                <button onClick={konversiJamKeTeks} className="bg-primary1 text-primary2 px-2 ml-2 py-1 rounded-lg hover:bg-hover2">konversi</button>
+                                <button onClick={handleKonversiJamKeTeks} className="bg-primary1 text-primary2 px-2 ml-2 py-1 rounded-lg hover:bg-hover2">konversi</button>
                              </div>
                             <div>hasil: {jamTeks}</div>
                         </div>
@@ -340,10 +311,17 @@ return (
                 </div>
                 {/* button latihan */}
                 <div className="justify-self-end flex flex-row gap-2 text-2xl">
-                    <button className="border-2 rounded-lg w-2/3 border-primary1 text-primary1 font-bold cursor-pointer hover:bg-hover1">Tanya Forum</button>
-                    <button className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-hover2 cursor-pointer w-1/2  ">lanjut</button>
+                    <button className="border-2 rounded-lg w-2/3 border-primary1 text-primary1 font-bold cursor-pointer hover:bg-hover1">
+                        Tanya Forum
+                    </button>
+                    <button
+                        className="bg-primary1 p-2 rounded-lg text-primary2 hover:bg-hover2 cursor-pointer w-1/2"
+                        onClick={handleNextClick}
+                    >
+                        lanjut
+                    </button>
+                </div>            
                 </div>
-            </div>
         </div>
     </div>
   )

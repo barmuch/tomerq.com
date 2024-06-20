@@ -5,7 +5,6 @@ import Link from 'next/link'
 
 export default function Home() {
   
-
   return (
     <div className="flex-1 h-max-full h-full min-h-screen w-full bg-primary2 flex flex-col content-between gap-6 lg:gap-0">
       {/* navbar */}

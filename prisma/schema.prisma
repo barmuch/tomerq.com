@@ -15,11 +15,33 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  posts         Post[]
+  comments      Comment[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  content   String
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+}
+
+model Comment {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    String
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime  @default(now())
 }
 
 model Account {
@@ -81,33 +103,36 @@ model Authenticator {
 
 model Kurikulum {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug           String?   @unique
-  title          String?   @unique
+  slug           String?  @unique 
+  title          String?   
   quote          String?
   quoteFrom      String?
   materi Materi[]
+
+  @@unique([title, slug])
 }
 
 model Materi {
   id             String      @id @default(auto()) @map("_id") @db.ObjectId
-  slug           String?      @unique
-  title          String?      @unique
+  slug           String?      
+  title          String?      
   bab            String?
-  kurikulum      Kurikulum?  @relation(fields: [kurikulumTitle], references: [title])
+  kurikulum      Kurikulum?  @relation(fields: [kurikulumTitle, kurikulumSlug], references: [title, slug])
   kurikulumTitle String?
+  kurikulumSlug  String?
   pembahasan     Pembahasan?
-  no             String?
+  nomor          Int?
 
-  @@unique([title, slug, id, kurikulumTitle])
+  @@unique([title, slug, id, kurikulumSlug])
 }
 
 model Pembahasan {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  materi         Materi?   @relation(fields: [materiTitle, materiSlug, materiId, kurikulumTitle], references: [title, slug, id, kurikulumTitle])
+  materi         Materi?   @relation(fields: [materiTitle, materiSlug, materiId, kurikulumSlug], references: [title, slug, id, kurikulumSlug])
   materiTitle    String?   @unique
   materiSlug     String?   @unique
   materiId       String?   @unique @db.ObjectId
-  kurikulumTitle String?
+  kurikulumSlug String?
   teori          String?
   contoh         Contoh?
   catatan        Catatan?
@@ -117,7 +142,7 @@ model Pembahasan {
   analisa        String?
    
 
-  @@unique([materiTitle, materiSlug, materiId, kurikulumTitle])
+  @@unique([materiTitle, materiSlug, materiId, kurikulumSlug])
 }
 
 model Contoh {
