@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from "@/lib/utils/connect"; // Adjust the import path as necessary
+import prisma from '@/lib/utils/connect'; // Adjust the import path as necessary
 
 // Handle GET request
 export async function GET() {
@@ -20,11 +20,18 @@ export async function GET() {
 export async function POST(request) {
     try {
         const body = await request.json();
+
+        // Basic validation
+        if (!body.content || !body.title || !body.authorId) {
+            return NextResponse.json({ error: 'Title, content, and authorId are required' }, { status: 400 });
+        }
+
         const newPost = await prisma.post.create({
             data: {
+                title: body.title,
                 content: body.content,
                 author: {
-                    connect: { id: body.authorId }, // Assuming the request body contains an authorId
+                    connect: { id: body.authorId, name : body.name }, // Assuming the request body contains an authorId
                 },
             },
         });
