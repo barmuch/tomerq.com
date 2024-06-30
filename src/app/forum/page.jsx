@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import Navbar from "@/components/navbar";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link"
+import Link from "next/link";
 
 const Forum = () => {
     const { data: session, status } = useSession();
@@ -19,7 +19,9 @@ const Forum = () => {
                 throw new Error('Failed to fetch posts');
             }
             const data = await res.json();
-            setPosts(data);
+            // Sort posts by createdAt in descending order
+            const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setPosts(sortedPosts);
         } catch (error) {
             console.error(error);
         }
@@ -83,7 +85,7 @@ const Forum = () => {
             <div className="flex-1 flex md:flex-row max-w-full bg-primary1 py-5 border-t-2 border-primary2 overflow-hidden gap-4 px-4 justify-center">
                 <div className="w-full md:w-4/5 bg-primary2 rounded-lg overflow-y-auto py-3">
                     {/* title */}
-                    <div className="bg-primary1 text-primary2 md:text-3xl md:p-2 border-1 border-primary2 rounded-r-lg inline-block">Forum Pertanyaan</div>
+                    <div className="bg-primary1 text-primary2 md:text-3xl md:p-2 border-1 border-primary2 rounded-r-lg inline-block">Forum Diskusi</div>
                     {/* container */}
                     <div className="flex flex-col w-4/5 gap-4 mx-auto mt-2">
                         {/* post pertanyaan */}
@@ -130,7 +132,6 @@ const Forum = () => {
                                     <div className="indent-6">{post.content}</div>
                                     <div className="flex flex-row justify-between">
                                         <div className="text-sm">dari: {post.authorName}</div>
-                                        <div className="text-sm">balas</div>
                                     </div>
                                 </Link>
                             ))}

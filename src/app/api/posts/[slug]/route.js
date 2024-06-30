@@ -1,21 +1,35 @@
 import prisma from "@/lib/utils/connect";
 import { NextResponse } from "next/server";
 
-
 export const GET = async (req, { params }) => {
   const { slug } = params;
 
   try {
     const post = await prisma.post.findUnique({
       where: { 
-      id : slug 
-    },
+        id: slug 
+      },
       include: { 
-        comments: true
+        comments: {
+          include: {
+            author: true,  // Include the author information for comments
+            replies: {
+              include: {
+                author: true  // Include the author information for replies
+              }
+            }
+          }
+        }
       }
     });
 
-    return new NextResponse(JSON.stringify(post, { status: 200 }));
+    if (!post) {
+      return new NextResponse(
+        JSON.stringify({ message: "Post not found!" }, { status: 404 })
+      );
+    }
+
+    return new NextResponse(JSON.stringify(post), { status: 200 });
   } catch (err) {
     console.log(err);
     return new NextResponse(
