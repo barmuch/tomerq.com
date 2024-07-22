@@ -42,15 +42,13 @@ model Comment {
   content       String
   post          Post        @relation(fields: [postId], references: [id])
   postId        String
-  author        User        @relation(fields: [authorId], references: [id])
-  authorId      String
+  author        User?       @relation(fields: [authorId], references: [id])
+  authorId      String?
   createdAt     DateTime    @default(now())
   parentComment Comment?    @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   parentCommentId String?   @db.ObjectId
   replies       Comment[]   @relation("CommentReplies")
 }
-
-
 
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId

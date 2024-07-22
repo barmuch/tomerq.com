@@ -13,24 +13,36 @@ const SingleForum = ({ params }) => {
   const [replyCommentId, setReplyCommentId] = useState(null);
   const [newReply, setNewReply] = useState("");
   const [showReplyToPost, setShowReplyToPost] = useState(false);
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editedComment, setEditedComment] = useState("");
+  const [refreshComments, setRefreshComments] = useState(false);
 
   useEffect(() => {
     if (slug) {
       const fetchPostAndComments = async () => {
         try {
-          const resPost = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${slug}`);
+          const resPost = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${slug}`, {
+            method: "GET",
+            headers: {
+              "Cache-Control": "no-store",
+            },
+          });
           if (!resPost.ok) {
             throw new Error("Failed to fetch post");
           }
           const postData = await resPost.json();
           setPost(postData);
 
-          const resComments = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments/${slug}`);
+          const resComments = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments/${slug}`, {
+            method: "GET",
+            headers: {
+              "Cache-Control": "no-store",
+            },
+          });
           if (!resComments.ok) {
             throw new Error("Failed to fetch comments");
           }
           const commentsData = await resComments.json();
-          // Sort comments by creation time from newest to oldest
           commentsData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setComments(commentsData);
         } catch (error) {
@@ -40,27 +52,20 @@ const SingleForum = ({ params }) => {
 
       fetchPostAndComments();
     }
-  }, [slug]);
+  }, [slug, refreshComments]);
 
-  const handleCommentChange = (e) => {
-    setNewComment(e.target.value);
-  };
-
-  const handleReplyChange = (e) => {
-    setNewReply(e.target.value);
-  };
+  const handleCommentChange = (e) => setNewComment(e.target.value);
+  const handleReplyChange = (e) => setNewReply(e.target.value);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() === "") {
       alert("Please enter a comment.");
       return;
     }
-
     if (!session) {
       alert("You must be logged in to comment.");
       return;
     }
-
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments`, {
         method: "POST",
@@ -90,12 +95,10 @@ const SingleForum = ({ params }) => {
       alert("Please enter a reply.");
       return;
     }
-
     if (!session) {
       alert("You must be logged in to reply.");
       return;
     }
-
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments`, {
         method: "POST",
@@ -141,32 +144,68 @@ const SingleForum = ({ params }) => {
       alert("You must be logged in to delete comments.");
       return;
     }
-
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments/${commentId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "Cache-Control": "no-store",
         },
       });
       if (!res.ok) {
         throw new Error("Failed to delete comment");
       }
-
-      // Remove deleted comment and its replies from the state
-      const updatedComments = comments.filter((comment) => comment.id !== commentId && comment.parentCommentId !== commentId);
-      setComments(updatedComments);
+      // Remove the comment and its replies from state
+      setComments((prevComments) => prevComments.filter(comment => comment.id !== commentId && comment.parentCommentId !== commentId));
     } catch (error) {
-      console.error(error);
+      console.error("Error deleting comment:", error);
     }
   };
 
-  const toggleReply = (commentId) => {
-    setReplyCommentId(commentId === replyCommentId ? null : commentId);
+  const toggleReply = (commentId) => setReplyCommentId(commentId === replyCommentId ? null : commentId);
+  const toggleReplyToPost = () => setShowReplyToPost(!showReplyToPost);
+
+  const handleEditComment = (commentId, content) => {
+    setEditCommentId(commentId);
+    setEditedComment(content);
   };
 
-  const toggleReplyToPost = () => {
-    setShowReplyToPost(!showReplyToPost);
+  const handleEditSubmit = async (commentId) => {
+    if (editedComment.trim() === "") {
+      alert("Please enter a comment.");
+      return;
+    }
+    if (!session) {
+      alert("You must be logged in to edit comments.");
+      return;
+    }
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments/${commentId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: editedComment }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to edit comment");
+      }
+      const updatedComment = await res.json();
+
+      // Update the comments state to include the edited comment
+      const updatedComments = comments.map((comment) => {
+        if (comment.id === commentId) {
+          return { ...comment, content: updatedComment.content };
+        }
+        return comment;
+      });
+
+      setComments(updatedComments);
+      setEditCommentId(null);
+      setEditedComment("");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const renderComments = (comments, parentId = null) => {
@@ -174,33 +213,61 @@ const SingleForum = ({ params }) => {
       .filter((comment) => comment.parentCommentId === parentId)
       .map((comment) => (
         <div key={comment.id} className="w-full bg-white rounded-lg drop-shadow-2xl p-2 gap-2 cursor-pointer">
-          <div className="indent-6">{comment.content}</div>
-          <div className="flex flex-row justify-between">
-            <div className="text-sm">dari: {comment.author.name}</div>
-            <div className="text-sm cursor-pointer" onClick={() => toggleReply(comment.id)}>balas</div>
-            {comment.authorId === session?.user.id && (
-              <div className="text-sm cursor-pointer" onClick={() => handleDelete(comment.id)}>hapus</div>
-            )}
-          </div>
-          {comment.id === replyCommentId && (
+          {editCommentId === comment.id ? (
             <div className="mt-2">
               <textarea
                 className="w-full border rounded p-2"
                 rows="3"
-                value={newReply}
-                onChange={handleReplyChange}
+                value={editedComment}
+                onChange={(e) => setEditedComment(e.target.value)}
               ></textarea>
               <button
                 className="bg-primary1 text-primary2 p-2 mt-2 rounded"
-                onClick={() => handleReplySubmit(comment.id)}
+                onClick={() => handleEditSubmit(comment.id)}
               >
-                Kirim Balasan
+                Simpan
+              </button>
+              <button
+                className="bg-red-500 text-white p-2 mt-2 rounded"
+                onClick={() => setEditCommentId(null)}
+              >
+                Batal
               </button>
             </div>
+          ) : (
+            <>
+              <div className="indent-6">{comment.content}</div>
+              <div className="flex flex-row justify-between">
+                <div className="text-sm">dari: {comment.author.name}</div>
+                <div className="text-sm cursor-pointer" onClick={() => toggleReply(comment.id)}>balas</div>
+                {comment.authorId === session?.user.id && (
+                  <>
+                    <div className="text-sm cursor-pointer" onClick={() => handleEditComment(comment.id, comment.content)}>edit</div>
+                    <div className="text-sm cursor-pointer" onClick={() => handleDelete(comment.id)}>hapus</div>
+                  </>
+                )}
+              </div>
+              {comment.id === replyCommentId && (
+                <div className="mt-2">
+                  <textarea
+                    className="w-full border rounded p-2"
+                    rows="3"
+                    value={newReply}
+                    onChange={handleReplyChange}
+                  ></textarea>
+                  <button
+                    className="bg-primary1 text-primary2 p-2 mt-2 rounded"
+                    onClick={() => handleReplySubmit(comment.id)}
+                  >
+                    Kirim Balasan
+                  </button>
+                </div>
+              )}
+              <div className="ml-10">
+                {renderComments(comments, comment.id)}
+              </div>
+            </>
           )}
-          <div className="ml-10">
-            {renderComments(comments, comment.id)}
-          </div>
         </div>
       ));
   };
