@@ -20,7 +20,10 @@ module.exports = {
       'hover2' : '#BD3D3D',
       'white' : '#ffffff',
       'blue' : '#0386FF',
-      'hover3' : '#79BFFF'
+      'hover3' : '#79BFFF',
+      'green' : '#35AF39',
+      'greenHover' : '#60CB64',
+      'yellow' : '#F5DB15'
     }
   },
   plugins: [],

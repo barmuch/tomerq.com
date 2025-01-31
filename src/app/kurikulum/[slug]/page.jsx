@@ -9,7 +9,6 @@ const Materi = ({ params }) => {
     const [loading, setLoading] = useState(true);
     const [openBab, setOpenBab] = useState({});
     const [checkedStatus, setCheckedStatus] = useState({});
-
     const { slug } = params;
 
     useEffect(() => {

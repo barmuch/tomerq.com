@@ -47,13 +47,20 @@ const Kurikulum = () => {
                         <div className="text-center">- H A M K A -</div>
                     </div>
                     {/* title  */}
-                    <div className=" text-xl lg:text-3xl text-black justify-start font-bold w-11/12 lg:w-3/5  mx-auto">Kurikulum</div>
+                    <div className="text-xl lg:text-3xl text-black font-bold w-11/12 lg:w-3/5 mx-auto flex justify-between items-center">
+                        <div>Kurikulum</div>
+                        
+                    </div>
                     {/* Mapping data kurikulum */}
                     {data?.map((kurikulum) => (
-                        <Link href={`/kurikulum/${kurikulum.slug}`} key={kurikulum.slug} className="flex flex-row bg-primary2 text-black w-max-full p-2 rounded-lg mx-auto w-11/12 lg:w-3/5 hover:bg-hover1 cursor-pointer border-2 border-black ">
-                            {kurikulum.title}
-                        </Link>   
-                    ))}
+    <div key={kurikulum.slug} className="flex flex-row items-center justify-between bg-primary2 text-black p-4 rounded-lg mx-auto w-11/12 lg:w-3/5  cursor-pointer border-2 border-black">
+        {/* Title */}
+        <Link href={`/kurikulum/${kurikulum.slug}`} className="text-lg font-medium hover:bg-hover1">
+            {kurikulum.title}
+        </Link>
+    </div>
+))}
+
                 </div>  
             </div>
         </div>
