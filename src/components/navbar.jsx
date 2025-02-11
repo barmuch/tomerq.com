@@ -70,11 +70,17 @@ const Navbar = () => {
         )}
         {/* User Button */}
         <div className="relative object-contain cursor-pointer" onClick={toggleUser}>
-        {status === 'authenticated' ? (
-          <Image src={session.user.image} width={30} height={30} alt="User Image" className="rounded-full" />
-        ) : (
-          <Image src="/user-icon.png" width={30} height={30} alt="Default User Icon" />
-        )}
+          {status === "authenticated" ? (
+            <Image
+              src={session.user.image ?? "/user-icon.png"} // Jika null, pakai default
+              width={30}
+              height={30}
+              alt="User Image"
+              className="rounded-full"
+            />
+          ) : (
+            <Image src="/user-icon.png" width={30} height={30} alt="Default User Icon" />
+          )}
         </div>
         {/* User Dashboard */}
         {openUser && (

@@ -1,20 +1,25 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+// Import Firebase SDKs yang dibutuhkan
+import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
+import { getStorage } from "firebase/storage"
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-export const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
+// Konfigurasi Firebase (gunakan variabel lingkungan untuk keamanan)
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "tomerq-75a0d.firebaseapp.com",
   projectId: "tomerq-75a0d",
   storageBucket: "tomerq-75a0d.appspot.com",
   messagingSenderId: "41283268046",
   appId: "1:41283268046:web:1c660344b082ef18c30f9f",
   measurementId: "G-4P4E3076GL"
-};
+}
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+// Inisialisasi Firebase
+const app = initializeApp(firebaseConfig)
+
+// Inisialisasi Firestore & Storage
+const db = getFirestore(app)
+const storage = getStorage(app)
+
+// Ekspor Firebase App, Firestore, dan Storage
+export { app, db, storage }

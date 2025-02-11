@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
 import Loading from "@/components/loading/page";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Materi = ({ params }) => {
+    const { data: session } = useSession();
+    const userRole = session?.user?.role || "user"; 
     const [data, setData] = useState(undefined);
     const [loading, setLoading] = useState(true);
     const [openBab, setOpenBab] = useState({});
     const [checkedStatus, setCheckedStatus] = useState({});
     const { slug } = params;
+
 
     useEffect(() => {
         const getData = async (slug) => {
@@ -71,6 +75,7 @@ const Materi = ({ params }) => {
                     <div className="text-2xl px-3 text-black text-justify leading-tight indent-8 w-4/5">{data?.quote}</div>
                     <div className="text-center text-2xl">{data?.quoteFrom}</div>
                     {/* Materi */}
+                    
                     <div className="flex flex-col w-4/5 items-start gap-2 my-6">
                         {Object.entries(sortedMateri.reduce((acc, materi) => {
                             if (!acc[materi.bab]) {
